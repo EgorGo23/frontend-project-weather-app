@@ -2,25 +2,31 @@ import React from 'react';
 import Cloud from './Cloud';
 
 const Canvas = () => {
-    const viewBox = [window.innerWidth / -2, 100 - window.innerHeight, window.innerWidth, window.innerHeight];
-    
-    const rectWidth = 5000;
-    const rectHeight = 1200;
-    
-    const style = {
-        
-    }
-
     return (
-        <svg viewBox={viewBox} className='night' preserveAspectRatio="xMaxYMax">
-            
-            <rect x={5000 / -2} y={0} width={5000} height={100} fill="red" />
+        <svg className='canvas'>
+            <svg className="waves"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 25 150 28"
+                preserveAspectRatio="none">
+                <defs>
+                    <path 
+                        id="gentle-wave"
+                        d="m -150,44.4 c 30,0 58,
+                            -18 87.7,-18 30.3,0 58.3,
+                            18 87.3,18 30,0 58,-18 88,
+                            -18 30,0 58,18 88,18 l 0,
+                            34.5 -351,0 z" />
+                </defs>
+                <g className="parallax">
+                    <use xlinkHref="#gentle-wave" x="50" y="0" fill="rgb(68,88,129)"/>
+                    <use xlinkHref="#gentle-wave" x="50" y="3" fill="rgb(30,42,73)"/>
+                    <use xlinkHref="#gentle-wave" x="50" y="6" fill="rgb(37,50,80)"/>  
+                </g>
                 
-            {/* <Cloud />
-            
-            <path d="M50 20A40 40 0 1 0 50 70 30 30 0 1 1 50 20z" stroke="black" strokeWidth="5" fill="red"/> */}
+            </svg>
         </svg>
-            
+        
+        
     );
 }
 
