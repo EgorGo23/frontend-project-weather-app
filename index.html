@@ -5,20 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body style="background: linear-gradient(to bottom, #B290FF, #2E1D65);;">
-    <svg class="hamburger__icon" id="Menu_Burger_Icon" data-name="Menu Burger Icon"
-    viewBox="31.5 30 49.9 32">
-   <defs>
-       <style>.hamburger__icon__fill {
-           fill: #594e78
-       }</style>
-   </defs>
-   <rect id="Rectangle_9" width="49.9" height="4" class="hamburger__icon__fill" data-name="Rectangle 9" rx="2"
-         transform="translate(31.5 58)"/>
-   <rect id="Rectangle_10" width="49.9" height="4"  class="hamburger__icon__fill" data-name="Rectangle 10" rx="2"
-         transform="translate(31.5 44)"/>
-   <rect id="Rectangle_11" width="49.9" height="4"  class="hamburger__icon__fill" data-name="Rectangle 11" rx="2"
-         transform="translate(31.5 30)"/>
-</svg>
+<body>
+    <script>
+         const url = "https://api.openweathermap.org/data/2.5/forecast?id=498817&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric";
+
+            fetch(url)
+            .then(res => res.json())
+            .then(res => console.log(res.list))
+    </script>
 </body>
 </html>
+
+
