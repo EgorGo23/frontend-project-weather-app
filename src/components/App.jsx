@@ -50,11 +50,11 @@ const App = () => {
                                 </svg>
                                 </button>
                             </div>
-                            <span className="city-search-hr">O  O  O</span>
+                           
                             </div>
 
                             <div className="city-search-body">
-                                <span className="city-invalid-note">City name is not valid. Note: only capital cities are supported for now</span>
+                                
                             </div>
 
                         </div>
@@ -62,7 +62,15 @@ const App = () => {
 
 
                         <div className="fav-city-wrapper">
-                            <div className="fav-city-image-overlay"></div>
+
+
+
+
+
+
+
+
+                            {/* <div className="fav-city-image-overlay"></div>
 
                             <div className="fav-city-header">
                             <h3 className="fav-city-title">CITY OF THE MONTH</h3>
@@ -83,7 +91,7 @@ const App = () => {
                                 </div>
                                 <button className="fav-city-add-btn"></button>
                             </div>
-                            </div>
+                            </div> */}
 
                         </div>
 
