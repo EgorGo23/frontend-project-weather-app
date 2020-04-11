@@ -4,7 +4,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+const os = require('os');
 
+const isWindows = os.type() === 'Windows_NT';
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 
@@ -44,7 +46,7 @@ const babelOptions = (preset) => {
 
 module.exports = {
   mode: 'none',
-  entry: ['@babel/polyfill', './src/index.jsx'],
+  entry: './src/index.jsx',
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'index_bundle.js',
@@ -57,6 +59,7 @@ module.exports = {
     historyApiFallback: true,
     port: 4200,
     hot: isDev,
+    open: isWindows ? 'chrome' : 'google-chrome',
   },
   module: {
     rules: [

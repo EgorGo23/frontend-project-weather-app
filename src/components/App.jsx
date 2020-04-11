@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 
 const App = () => { 
 
-    
+  
     return (
         <Fragment>
             <header className="main__header">
@@ -54,23 +54,44 @@ const App = () => {
                             </div>
 
                             <div className="city-search-body">
-                                
+                              <div className="city-search-body-wrapper">
+                                <div className="selected__city__container">
+                                      <div className="city-wrapper">
+                                        <span className="city-name">Saint Petersburg</span>
+                                        <span className="city-time">суббота 18:00</span>
+                                        <span className="weather-condition">Облачно</span>
+                                        <div className="city-temp">
+                                          <img className="city-weather-icon" src="../../amcharts_weather_icons_1.0.0/static/day.svg"/>
+                                          <span className="temp-metric">5°</span>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <div className="city-search-forecast__container">
+                                      <div className="forecast-day">
+
+                                      </div>
+                                      <div className="forecast-day">
+                                        
+                                      </div>
+                                      <div className="forecast-day">
+                                        
+                                      </div>
+                                      <div className="forecast-day">
+                                        
+                                      </div>
+                                      <div className="forecast-day">
+                                        
+                                      </div>
+                                  </div>
+                                </div>
                             </div>
 
                         </div>
 
 
 
-                        <div className="fav-city-wrapper">
-
-
-
-
-
-
-
-
-                            {/* <div className="fav-city-image-overlay"></div>
+                        {/* <div className="fav-city-wrapper">
+                            <div className="fav-city-image-overlay"></div>
 
                             <div className="fav-city-header">
                             <h3 className="fav-city-title">CITY OF THE MONTH</h3>
@@ -91,9 +112,8 @@ const App = () => {
                                 </div>
                                 <button className="fav-city-add-btn"></button>
                             </div>
-                            </div> */}
-
-                        </div>
+                            </div>
+                        </div> */}
 
 
                     </section>
