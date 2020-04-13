@@ -5,8 +5,6 @@ const App = () => {
   //     .then(res => res.json())
   //     .then(res => console.log(res.list[0]))
   
-
-  
   return (
       <Fragment>
           <header className="main__header">
@@ -58,15 +56,15 @@ const App = () => {
                           </div>
 
                           <div className="city-search-body">
-                            <div className="city-search-body-wrapper">
-                              <div className="selected__city__container">
-                                <div className="city-wrapper">
+                            <div className="city-weather-forecast-wrapper">
+                              <div className="selected-city-current-data__container">
+                                <div className="selected-city-wrapper">
                                   <span className="city-name">Санкт-Петербург</span>
                                   <span className="city-time">суббота 18:00</span>
                                   <span className="weather-condition">Облачно</span>
-                                  <div className="city-data">
+                                  <div className="city-weather-data">
                                     <div className="city-temp">
-                                      <img className="city-weather-icon" width="60" height="60" src="../../amcharts_weather_icons_1.0.0/animated/day.svg"/>
+                                      <img className="city-weather-icon" width="60" height="60" src="../../public/icon/animated/cloudy.svg"/>
                                       <span className="temp-metric">5°</span>
                                     </div>
                                     <div className="city-wind-hum-pres">
@@ -80,7 +78,7 @@ const App = () => {
                               <div className="city-search-forecast__container">
                                     <div className="weather-forecast-day">
                                       <span className="forecast-day">Sa</span>
-                                      <img className="city-weather-icon" width="50" height="50" src="../../amcharts_weather_icons_1.0.0/static/day.svg"/>
+                                      <img className="city-weather-icon" width="50" height="50" src="../../public/icon/animated/day.svg"/>
                                       <div className="forecast-max-min">
                                         <span>6°</span>
                                         <span>4°</span>
@@ -89,7 +87,7 @@ const App = () => {
                                     </div>
                                     <div className="weather-forecast-day">
                                       <span className="forecast-day">Su</span>
-                                      <img className="city-weather-icon" width="50" height="50" src="../../amcharts_weather_icons_1.0.0/static/day.svg"/>
+                                      <img className="city-weather-icon" width="50" height="50" src="../../public/icon/animated/cloudy-night-2.svg"/>
                                       <div className="forecast-max-min">
                                         <span>6°</span>
                                         <span>4°</span>
@@ -97,7 +95,7 @@ const App = () => {
                                     </div>
                                     <div className="weather-forecast-day">
                                       <span className="forecast-day">Mo</span>
-                                      <img className="city-weather-icon" width="50" height="50" src="../../amcharts_weather_icons_1.0.0/static/day.svg"/>
+                                      <img className="city-weather-icon" width="50" height="50" src="../../public/icon/animated/rainy-6.svg"/>
                                       <div className="forecast-max-min">
                                         <span>6°</span>
                                         <span>4°</span>
@@ -105,7 +103,7 @@ const App = () => {
                                     </div>
                                     <div className="weather-forecast-day">
                                       <span className="forecast-day">Tu</span>
-                                      <img className="city-weather-icon" width="50" height="50" src="../../amcharts_weather_icons_1.0.0/static/day.svg"/>
+                                      <img className="city-weather-icon" width="50" height="50" src="../../public/icon/animated/rainy-1.svg"/>
                                       <div className="forecast-max-min">
                                         <span>6°</span>
                                         <span>4°</span>
@@ -113,7 +111,7 @@ const App = () => {
                                     </div>
                                     <div className="weather-forecast-day">
                                       <span className="forecast-day">We</span>
-                                      <img className="city-weather-icon" width="50" height="50" src="../../amcharts_weather_icons_1.0.0/static/day.svg"/>
+                                      <img className="city-weather-icon" width="50" height="50" src="../../public/icon/animated/night.svg"/>
                                       <div className="forecast-max-min">
                                         <span>6°</span>
                                         <span>4°</span>
@@ -128,28 +126,7 @@ const App = () => {
 
 
                       <div className="fav-city-wrapper">
-                          <div className="fav-city-image-overlay"></div>
-
-                          <div className="fav-city-header">
-                          <h3 className="fav-city-title">CITY OF THE MONTH</h3>
-                          <hr className="fav-city-hr" />
-                          <span className="fav-city-date">Sunday, 31th July</span>
-                          </div>
-
-                          <div className="fav-city-body">
-                          <div className="fav-city-body-subwrapper">
-
-                              
-
-                              <div className="fav-city-info">
-                              <span className="fav-city-temp"></span>
-                              <div className="fav-city-name-wrapper"><span className="fav-city-name">ROME</span><span
-                                  className="fav-city-country"></span></div>
-                              <span className="fav-city-state"></span>
-                              </div>
-                              <button className="fav-city-add-btn"></button>
-                          </div>
-                          </div>
+                          
                       </div>
 
 

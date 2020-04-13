@@ -272,7 +272,7 @@ html, body, #root {
   width: 100%;
   min-height: 60%;
 
-  .city-search-body-wrapper {
+  .city-weather-forecast-wrapper {
     width: 500px;
     height: 400px;
     margin: 0 auto;
@@ -283,10 +283,9 @@ html, body, #root {
     flex-flow: column;
     justify-content: space-around;
 
-    .selected__city__container {
-  
-    
-      .city-wrapper {
+    .selected-city-current-data__container {
+
+      .selected-city-wrapper {
         display: flex;
         flex-flow: column;
         align-items: flex-start;
@@ -299,7 +298,7 @@ html, body, #root {
           font-weight: lighter;
         }
 
-        .city-data {
+        .city-weather-data {
           width: 100%;
           display: flex;
           align-items: center;
@@ -389,10 +388,6 @@ html, body, #root {
     }
   }
 }
-
-
-
-
 
 
 .fav-city-wrapper {
