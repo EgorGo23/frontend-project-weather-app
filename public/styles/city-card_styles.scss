@@ -1,0 +1,17 @@
+.city-weather-card {
+    margin: 2rem 0;
+
+    .weather-card {
+        margin: 0 auto;
+        width: 30%;
+        height: 30rem;
+        border-radius: 2rem;
+        box-shadow: 0 0 2rem rgba(0,0,255,.1);
+    }
+}
+
+@media screen and (max-width: 959px) {
+    .city-weather-card {
+
+    }
+}
