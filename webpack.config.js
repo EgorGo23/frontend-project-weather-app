@@ -58,7 +58,6 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     port: 4200,
-    hot: isDev,
     open: isWindows ? 'chrome' : 'google-chrome',
   },
   module: {
@@ -84,10 +83,6 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: isDev,
-              reloadAll: true,
-            },
           },
           {
             loader: 'css-loader',

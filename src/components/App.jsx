@@ -54,12 +54,22 @@ const App = () => {
 
             <div className="city-search-body">
               <div className="weather-card">
-                
+                <div className="weather-card__city">
+                  <span>Moscow</span>
+                </div>
+                <div className="weather-card__icon">
+                  <img className="city-weather-icon" width="130" height="130" src="../../public/icons/animated/cloudy.svg" />
+                </div>
+                <div className="weather-card__temp">
+                  <span>6°</span>
+                  <span>Cloudy</span>
+                </div>
+                <div className="weather-card__min-max"></div>
               </div>
             </div>
           </div>
           <div className="fav-city-wrapper">
-                          
+            
           </div>
         </div>
       </main>
