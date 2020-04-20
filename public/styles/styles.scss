@@ -1,6 +1,7 @@
 @import './reset.css';
 @import './forecast-daily-card_styles.scss';
 @import './forecast-watch-card_styles.scss';
+@import './weather-card_styles.scss';
 
 html, body, #root {
   font-family: sans-serif;
@@ -60,7 +61,6 @@ html, body, #root {
       opacity: 1;
   }
 }
-
 
 
 .hamburger__icon {
@@ -153,6 +153,30 @@ html, body, #root {
   }
 }
   
+@media screen and (max-width: 500px) {
+  .main__header {
+    flex-flow: column;
+    align-items: center;
+
+    & > * {
+      width: 100%;
+    }
+
+    .logo__icon {
+      justify-content: center;
+    }
+
+    .date__text {
+      line-height: 2rem;
+      margin-top: -0.4rem;
+    }
+
+    .mode-toggle__container {
+      justify-content: center;
+    }
+  }
+}
+
 
 
 /*
@@ -160,7 +184,6 @@ html, body, #root {
     Body
 ================
 */
-
 
 .main-container__bg {
   min-height: 100vh;
@@ -195,7 +218,7 @@ html, body, #root {
 
 .city-search-header {
   width: 100%;
-  min-height: 40%;
+  min-height: 35%;
   display: flex;
   align-items: center;
   flex-flow: column;
@@ -263,67 +286,9 @@ html, body, #root {
 
 .city-search-body {
   width: 100%;
-  min-height: 60%;
+  min-height: 65%;
   display: flex;
   flex-flow: column;
-  justify-content: center;
-
-  .weather-card {
-    font-family: "Roboto", sans-serif;
-    width: 20rem;
-    height: 25rem;
-    box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 1.75rem;
-    display: flex;
-    flex-flow: column;
-
-    %weather-card__item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .weather-card__city {
-      font-size: large;
-      border: 1px solid black;
-      height: 10%;
-      @extend %weather-card__item;
-    }
-
-    .weather-card__icon {
-      border: 1px solid black;
-      height: 40%;
-      @extend %weather-card__item;
-    }
-
-    .weather-card__temp {
-      border: 1px solid black;
-      height: 30%;
-      @extend %weather-card__item;
-      flex-flow: column;
-
-      & > span:first-child {
-        font-size: 4rem;
-        line-height: 3rem;
-      }
-      & > span:last-child {
-        margin-top: 0.5rem;
-        text-transform: uppercase;
-        line-height: 1rem;
-        letter-spacing: .1rem;
-      }
-    }
-
-    .weather-card__min-max {
-      border: 1px solid black;
-      height: 20%;
-      @extend %weather-card__item;
-    }
-  }
-
 }
 
 

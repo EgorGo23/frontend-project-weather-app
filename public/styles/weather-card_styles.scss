@@ -1,0 +1,108 @@
+.weather-card {
+    font-family: "Roboto", sans-serif;
+    width: 20rem;
+    height: 31.5rem;
+    box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
+    margin: 0 auto;
+    padding: 2rem 2rem 1rem 2rem;
+    background-color: #fff;
+    border-radius: 1.75rem;
+    display: flex;
+    flex-flow: column;
+
+    %weather-card__item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .weather-card__city {
+      font-size: 2rem;
+      line-height: 2rem;
+      height: 10%;
+      @extend %weather-card__item;
+    }
+
+    .weather-card__icon {
+      height: 30%;
+      @extend %weather-card__item;
+    }
+
+    .weather-card__temp {
+      height: 20%;
+      @extend %weather-card__item;
+      flex-flow: column;
+
+      & > span:first-child {
+        font-size: 4rem;
+        line-height: 3rem;
+      }
+      & > span:last-child {
+        margin-top: 0.5rem;
+        text-transform: uppercase;
+        line-height: 1rem;
+        letter-spacing: .1rem;
+      }
+    }
+
+    .weather-card__min-max {
+      height: 20%;
+      @extend %weather-card__item;
+      justify-content: space-around;
+      align-items: flex-end;
+
+      .min__container, .max__container {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+
+        & > svg {
+          height: 0.8rem;
+        }
+
+        & > span {
+          line-height: 1rem;
+          font-size: 1.3rem;
+        }
+
+        & > span:first-of-type {
+          padding: 0.5rem 0;
+        }
+
+        &:nth-child(1) span:nth-child(3) {
+          color: #00ff9b;
+        }
+
+        &:nth-child(2) span:nth-child(3) {
+          color: red;
+        }
+      }
+    }
+    .weather-card__add-city-btn {
+      @extend %weather-card__item;
+      align-items: flex-end;
+      height: 20%;
+
+      .add-city-btn {
+        font-family: "Roboto", sans-serif;
+        width: 60%;
+        outline: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 3rem;
+        padding: 0.8rem 2rem;
+        color: white;
+        background-color: #2b244d;
+        font-size: 1rem;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgb(25,16,74);
+        transition: all 0.4s;
+      }
+      
+      .add-city-btn:hover {
+        background-color: #31feae;
+        box-shadow: 0 0 25px #11422F;
+      }
+    }
+}
