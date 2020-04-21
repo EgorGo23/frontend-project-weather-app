@@ -1,7 +1,8 @@
 @import './reset.css';
 @import './forecast-daily-card_styles.scss';
-@import './forecast-watch-card_styles.scss';
+@import './forecast-hourly-card_styles.scss';
 @import './weather-card_styles.scss';
+@import './fav-cities-carousel_styles.scss';
 
 html, body, #root {
   font-family: sans-serif;
@@ -292,12 +293,16 @@ html, body, #root {
 }
 
 
-
-
-
-
-
-
+.right-panel-wrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  flex: 1 1;
+  height: 100%;
+  position: relative;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
 
 
 

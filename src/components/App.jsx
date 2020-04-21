@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react';
 import WeatherCard from './WeatherCard';
-
+import ForecastDailyCard from './ForecastDailyСard';
+import FavCitiesCarousel from './FavCitiesCarousel';
+import ForecastHourlyCard from './ForecastHourlyСard';
 
 const App = () => {
   // fetch('https://api.openweathermap.org/data/2.5/forecast?id=498817&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric&lang=ru')
@@ -50,16 +52,20 @@ const App = () => {
             </div>
 
             <div className="city-search-body">
-              
+
             </div>
           </div>
 
-          <div className="fav-city-wrapper">
-
+          <div className="right-panel-wrapper">
+            <FavCitiesCarousel />
+            <ForecastDailyCard />
+            <ForecastHourlyCard />
           </div>
+
+          
         </div>
       </main>
-    </Fragment>
+    </Fragment >
   )
 }
 
