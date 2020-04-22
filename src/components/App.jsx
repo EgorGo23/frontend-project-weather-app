@@ -52,7 +52,7 @@ const App = () => {
             </div>
 
             <div className="city-search-body">
-
+              <WeatherCard />
             </div>
           </div>
 
@@ -61,7 +61,7 @@ const App = () => {
             <ForecastDailyCard />
             <ForecastHourlyCard />
           </div>
-
+         
           
         </div>
       </main>
