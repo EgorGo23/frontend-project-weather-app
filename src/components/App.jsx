@@ -96,7 +96,7 @@ const App = () => {
 
             <div className="city-search-body">
               <CitiesList list={listCities} />
-              {/* <WeatherCard /> */}
+              
             </div>
           </div>
 
