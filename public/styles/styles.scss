@@ -3,6 +3,7 @@
 @import './forecast-hourly-card_styles.scss';
 @import './weather-card_styles.scss';
 @import './fav-cities-carousel_styles.scss';
+@import './cities-list_styles.scss';
 
 html, body, #root {
   font-family: sans-serif;
@@ -290,6 +291,7 @@ html, body, #root {
   min-height: 70%;
   display: flex;
   flex-flow: column;
+  align-items: center;
 }
 
 

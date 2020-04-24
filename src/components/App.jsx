@@ -4,51 +4,13 @@ import ForecastDailyCard from './ForecastDailyСard';
 import FavCitiesList from './FavCitiesList';
 import ForecastHourlyCard from './ForecastHourlyСard';
 import CitiesList from './CitiesList';
+import CitySearchHeader from './CitySearchHeader';
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [listCities, setListCities] = useState([]);
-  const [currentInput, setCurrentInput] = useState('');
 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsError(false);
-      setIsLoading(true);
-
-      try {
-        const result = await fetch('../../city.list.json');
-        const resultToJSON = await result.json();
-
-        setListCities(resultToJSON);
-      } catch (error) {
-        setIsError(true);
-      }
-
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, []);
-  console.log(listCities);
-
-  // useEffect(async () => {
-  //   const fetchData = async () => {
-  //     const result = await fetch('../../city.list.json');
-  //     const resultToJSON = await result.json();
-
-  //     setListCities(resultToJSON);
-  //   };
-
-  //   fetchData();
-  // }, [currentInput]);
-
-  
   return (
     <>
       <header className="main__header">
-
         <div className="logo__icon">
           <svg className="hamburger__icon" width="2500" height="2246" viewBox="0 0 256 230" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet">
             <path d="M.754 114.75c0 19.215 18.763 37.152 48.343 47.263-5.907 29.737-1.058 53.706 15.136 63.045 16.645 9.6 41.443 2.955 64.98-17.62 22.943 19.744 46.13 27.514 62.31 18.148 16.63-9.627 21.687-35.221 15.617-65.887 30.81-10.186 48.044-25.481 48.044-44.949 0-18.769-18.797-35.006-47.979-45.052 6.535-31.933.998-55.32-15.867-65.045-16.259-9.376-39.716-1.204-62.996 19.056C104.122 2.205 80.897-4.36 64.05 5.392 47.806 14.795 43.171 39.2 49.097 69.487 20.515 79.452.754 96.057.754 114.75z" fill="#FFF" />
@@ -72,32 +34,14 @@ const App = () => {
 
           <span className="mode-toggle__text">Dark</span>
         </div>
-
       </header>
-
 
       <main className="main-container__bg">
         <div className="main-card">
           <div className="city-search-wrapper">
-            <div className="city-search-header">
-              <h3 className="city-search-title">SEARCH CITIES</h3>
-              <div className="search-city-input-wrapper">
-                <input className="search-city-input" value={currentInput} onChange={(e) => setCurrentInput(e.target.value)} auto-complete-placeholder="search city" placeholder="search city" />
-                <button className="search-city-btn">
-                  <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451">
-                    <path
-                      fill="#FFF"
-                      d="M447 428L337.6 318.4A192.5 192.5 0 0 0 192.4 0C86.3 0 0 86.3 0 192.3s86.3 192.3 192.3 192.3c48.2 0 92.3-17.8 126-47.2L428.2 447a13.2 13.2 0 0 0 19 0 13.5 13.5 0 0 0 0-19zM27 192.3C27 101.1 101 27 192.3 27c91.1 0 165.3 74.2 165.3 165.3s-74.2 165.4-165.4 165.4A165.6 165.6 0 0 1 27 192.3z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
+            <CitySearchHeader />
 
-            <div className="city-search-body">
-              <CitiesList list={listCities} />
-              
-            </div>
+            
           </div>
 
           {/* <div className="right-panel-wrapper">
