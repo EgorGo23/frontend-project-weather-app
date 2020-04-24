@@ -1,7 +1,7 @@
 import React, { } from 'react';
 
 const CitiesList = ({ list }) => {
-  console.log(list);
+  
   return (
     <div className="cities-list">
       <ul>
