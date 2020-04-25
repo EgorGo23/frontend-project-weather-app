@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CitiesList from './CitiesList';
+import { uniqWith } from 'lodash';
 
 const CitySearchHeader = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -7,28 +8,62 @@ const CitySearchHeader = () => {
   const [isError, setIsError] = useState(false);
   const [query, setQuery] = useState('');
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setIsError(false);
-  //     setIsLoading(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsError(false);
+      setIsLoading(true);
 
-  //     try {
-  //       const result = await fetch('api.openweathermap.org/data/2.5/forecast?zip=11102&units=metric&appid=af535cef1cfa81c6e432207e2e85c58b');
-  //       const resultToJSON = await result.json();
+      try {
+        const result = await fetch('../../city.list.json');
+        const resultToJSON = await result.json();
+        resultToJSON.filter(({ name }) => !/[^\w\s]/.test(name)
+        console.log(uniqWith(resultToJSON, (arr, arr2) => arr.name === arr2.name));
+        // console.log(uniqWith([{
+        //         id: '123',
+        //         name: 'John',
+        //         someKey: '1234'
+        //       }, {
+        //         id: '123',
+        //         name: 'John',
+        //         someKey: '12345'
+        //       }, ], (arr, othVal) => arr.someKey === othVal.someKey));
+        
 
-  //       // if (query.length > 1) {
-  //       //   const cities = resultToJSON.filter((city) => city.name.toLowerCase().indexOf(query.toLowerCase().trim(), 0) !== -1);
-  //       //   setListCities(cities);
-  //       // }
-  //     } catch (error) {
-  //       setIsError(true);
-  //     }
+        // const itemCity = resultToJSON.filter((city) => city.name.toLowerCase() === 'moscow');
+        // console.log('Rāmhormoz'.indexOf('mo', 0));
+        // console.log(resultToJSON[1].name);
+        // console.log(resultToJSON.sort((city1, city2) => {
+        //   const name1 = city1.name.toLowerCase();
+        //   const name2 = city2.name.toLowerCase();
 
-  //     setIsLoading(false);
-  //   };
+        //   if (name1 < name2) return -1;
+        //   if (name1 > name2) return 1;
 
-  //   fetchData();
-  // }, [query]);
+        //   return 0;
+        // })[0]);
+
+        
+      
+        //console.log().find(({name}) => name == 'Los Angeles'))
+        // if (query.length > 0) {
+        //   const cities = resultToJSON
+        //     .filter((city) => city.name
+        //       .toLowerCase()
+        //       .startsWith(`${query.toLowerCase()}`)
+        //     );
+              
+        //   setListCities(cities);
+
+        // }
+      } catch (error) {
+        setIsError(true);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [query]);
 
 
   return (
