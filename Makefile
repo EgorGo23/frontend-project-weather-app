@@ -10,5 +10,7 @@ test-coverage:
 	npm test -- --coverage
 lint:
 	npx eslint .
+withServer: 
+	npm run withServer
 deploy:
 	firebase deploy

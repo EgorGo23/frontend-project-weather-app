@@ -59,6 +59,9 @@ module.exports = {
     historyApiFallback: true,
     port: 4200,
     open: isWindows ? 'chrome' : 'google-chrome',
+    proxy: {
+      '/api': 'http://localhost:4300/',
+    },
   },
   module: {
     rules: [

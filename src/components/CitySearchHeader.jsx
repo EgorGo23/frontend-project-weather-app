@@ -1,3 +1,6 @@
+/* eslint-disable semi */
+/* eslint-disable no-multiple-empty-lines */
+/* eslint-disable no-trailing-spaces */
 import React, { useState, useEffect } from 'react';
 import CitiesList from './CitiesList';
 import { uniqWith } from 'lodash';
@@ -12,23 +15,18 @@ const CitySearchHeader = () => {
     const fetchData = async () => {
       setIsError(false);
       setIsLoading(true);
-
+      
       try {
-        const result = await fetch('../../city.list.json');
-        const resultToJSON = await result.json();
-        resultToJSON.filter(({ name }) => !/[^\w\s]/.test(name)
-        console.log(uniqWith(resultToJSON, (arr, arr2) => arr.name === arr2.name));
-        // console.log(uniqWith([{
-        //         id: '123',
-        //         name: 'John',
-        //         someKey: '1234'
-        //       }, {
-        //         id: '123',
-        //         name: 'John',
-        //         someKey: '12345'
-        //       }, ], (arr, othVal) => arr.someKey === othVal.someKey));
+        const response = await fetch('/api/getCities');
+        const body = await response.json();
+        console.log(body);
+        // const filterList = resultToJSON
+        //   .filter(({ name }) => !/[^\w\s]/.test(name));
         
-
+        // const newList = uniqWith(filterList, (arr, arr2) => arr.name === arr2.name);
+        
+    
+        
         // const itemCity = resultToJSON.filter((city) => city.name.toLowerCase() === 'moscow');
         // console.log('Rāmhormoz'.indexOf('mo', 0));
         // console.log(resultToJSON[1].name);
@@ -44,7 +42,7 @@ const CitySearchHeader = () => {
 
         
       
-        //console.log().find(({name}) => name == 'Los Angeles'))
+        // console.log().find(({name}) => name == 'Los Angeles'))
         // if (query.length > 0) {
         //   const cities = resultToJSON
         //     .filter((city) => city.name
@@ -56,6 +54,7 @@ const CitySearchHeader = () => {
 
         // }
       } catch (error) {
+        console.log(error);
         setIsError(true);
       }
 

@@ -4,11 +4,14 @@
   "description": "",
   "main": "my.js",
   "scripts": {
+    "server": "nodemon server/index.js",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
     "build": "cross-env NODE_ENV=production webpack --mode production",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --mode development"
+    "start": "cross-env NODE_ENV=development webpack-dev-server --mode development",
+    "withServer": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\""
   },
+  "proxy": "http://localhost:4300/",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,6 +26,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
+    "concurrently": "^5.2.0",
     "cross-env": "^7.0.2",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
@@ -47,7 +51,9 @@
   },
   "dependencies": {
     "autoprefixer": "^9.7.6",
+    "express": "^4.17.1",
     "lodash": "^4.17.15",
+    "nodemon": "^2.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
