@@ -60,6 +60,4 @@ const App = () => {
 export default App;
 
 
-// fetch('https://api.openweathermap.org/data/2.5/forecast?id=498817&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric&lang=ru')
-//     .then(res => res.json())
-//     .then(res => console.log(res.list[0]))
+

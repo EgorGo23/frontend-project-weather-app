@@ -3,32 +3,36 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
+const getFormattedListOfCities = require('./getFormattedListOfCities');
 
 const readFileAsync = promisify(fs.readFile);
 
 const app = express();
 const port = process.env.PORT || 4300;
 
-app.use(express.urlencoded({ extended: true }));
+const getCities = async () => {
+  const cities = await readFileAsync(
+    path.join(__dirname, 'data', 'city.list.json'),
+    { encoding: 'utf8' },
+  );
+  const sortedUniqCitiesInLatinWithSpaces = getFormattedListOfCities(cities);
+  //throw new Error('Oops');
+  return {
+    sortedUniqCitiesInLatinWithSpaces,
+  };
+};
 
-app.get('/api/getCities', async (req, res) => {
-  try {
-    const citiesList = await readFileAsync(
-      path.join(__dirname, 'city.list.json'),
-      { encoding: 'utf8' },
-    );
-    
+getCities()
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.log('OOPS', error);
+  });
 
-    const filteredData = citiesList.filter(({ name }) => !/[^\w\s]/.test(name));
 
-    console.log(filteredData.length);
-    
-    //res.status(200).send(readedFile);
-  } catch (e) {
-    res.status(500).json({
-      message: 'Server error',
-    });
-  }
+app.get('/api/getCities', (req, res) => {
+
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
