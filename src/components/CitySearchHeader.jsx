@@ -5,10 +5,10 @@ import React, { useState, useEffect } from 'react';
 import CitiesList from './CitiesList';
 
 const CitySearchHeader = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [listCities, setListCities] = useState([]);
-  const [isError, setIsError] = useState(false);
   const [query, setQuery] = useState('');
+  const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,37 +18,44 @@ const CitySearchHeader = () => {
       try {
         const response = await fetch(`/api/getCities?query=${query}`);
         const body = await response.json();
-        console.log(body);
-        
-        // if (query.length > 0) {
-        //   const cities = resultToJSON
-        //     .filter((city) => city.name
-        //       .toLowerCase()
-        //       .startsWith(`${query.toLowerCase()}`)
-        //     );
-              
-        //   setListCities(cities);
 
-        // }
-      } catch (error) {
-        console.log(error);
+        if (response.status >= 500) {
+          throw new Error('Server Error');
+        }
+
+        throw new Error('My error');
+        setListCities(body);
+      } catch {
+        console.log('point 1');
         setIsError(true);
+        console.log('point2');
       }
-
+      
       setIsLoading(false);
     };
-
+    
     fetchData();
   }, [query]);
 
+  const handleChange = (event) => {
+    setQuery(event.target.value);
 
+    if (event.target.value === '') {
+      setListCities([]);
+    }
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  }
+  
   return (
     <>
       <div className="city-search-header">
         <h3 className="city-search-title">SEARCH CITIES</h3>
-        <div className="search-city-input-wrapper">
-          <input className="search-city-input" value={query} onChange={(event) => setQuery(event.target.value)} auto-complete-placeholder="search city" placeholder="search city" />
-          <button className="search-city-btn">
+        <form onSubmit={(event) => handleSubmit(event)} className="search-city-input-wrapper">
+          <input className="search-city-input" value={query} onChange={(event) => handleChange(event)} auto-complete-placeholder="search city" placeholder="search city" />
+          <button type="submit" className="search-city-btn">
             <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451">
               <path
                 fill="#FFF"
@@ -56,10 +63,11 @@ const CitySearchHeader = () => {
               />
             </svg>
           </button>
-        </div>
+        </form>
       </div>
       <div className="city-search-body">
-        <CitiesList list={listCities} />
+        {isError && <div>Something went wrong ...</div>}
+        {/* {(isError) ? <div className="cities-list" /> : <CitiesList cities={listCities} />} */}
       </div>
     </>
   );
