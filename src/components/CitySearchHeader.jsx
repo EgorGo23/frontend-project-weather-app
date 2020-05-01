@@ -22,13 +22,15 @@ const CitySearchHeader = () => {
         if (response.status >= 500) {
           throw new Error('Server Error');
         }
-
-        throw new Error('My error');
+        
         setListCities(body);
-      } catch {
-        console.log('point 1');
-        setIsError(true);
-        console.log('point2');
+      } catch (error) {
+        console.log(`Name: ${error.name}, message: ${error.message}, status: ${error.status}`);
+
+        if (error.name !== 'TypeError' && error.message !== 'Failed to fetch') {
+          console.log('come in');
+          setIsError(true);
+        }
       }
       
       setIsLoading(false);
@@ -49,12 +51,16 @@ const CitySearchHeader = () => {
     event.preventDefault();
   }
   
+  const handleFocus = (event) => {
+    
+  }
+
   return (
     <>
       <div className="city-search-header">
         <h3 className="city-search-title">SEARCH CITIES</h3>
         <form onSubmit={(event) => handleSubmit(event)} className="search-city-input-wrapper">
-          <input className="search-city-input" value={query} onChange={(event) => handleChange(event)} auto-complete-placeholder="search city" placeholder="search city" />
+          <input className="search-city-input" value={query} onFocus={(event) => handleFocus(event)} onChange={(event) => handleChange(event)} placeholder="search city" />
           <button type="submit" className="search-city-btn">
             <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451">
               <path
@@ -64,10 +70,10 @@ const CitySearchHeader = () => {
             </svg>
           </button>
         </form>
+        {(listCities.length > 0) ? <CitiesList cities={listCities} /> : <div />}
       </div>
       <div className="city-search-body">
-        {isError && <div>Something went wrong ...</div>}
-        {/* {(isError) ? <div className="cities-list" /> : <CitiesList cities={listCities} />} */}
+        
       </div>
     </>
   );

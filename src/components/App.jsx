@@ -47,7 +47,7 @@ const App = () => {
           {/* <div className="right-panel-wrapper">
             <FavCitiesList />
             <ForecastDailyCard />
-            <ForecastHourlyCard />
+            <ForecastHourlyCard /> 
           </div> */}
 
 

@@ -29,7 +29,7 @@ app.get('/api/getCities', (req, res) => {
     const { query } = req.query;
     if (query.length > 0) {
       const transData = uploadedData.filter(({ name }) => name.toLowerCase().startsWith(`${query.toLowerCase()}`));
-      res.status(200).send(transData);
+      res.status(200).send(JSON.stringify(transData));
     }
   } else {
     res.status(500).json({
@@ -39,32 +39,3 @@ app.get('/api/getCities', (req, res) => {
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-
-/*
-app.get('/api/getCities', async (req, res) => {
-  if (!uploadedData) {
-    try {
-      const cities = await readFileAsync(
-        path.join(__dirname, 'data', 'city.list.json'),
-        { encoding: 'utf8' },
-      );
-      const sortedUniqCitiesInLatinWithSpaces = getFormattedListOfCities(cities);
-      uploadedData = sortedUniqCitiesInLatinWithSpaces;
-    } catch (error) {
-      uploadedData = null;
-    }
-  }
-  if (uploadedData) {
-    const { query } = req.query;
-    if (query.length > 0) {
-      const transData = uploadedData.filter(({ name }) => name.toLowerCase().startsWith(`${query.toLowerCase()}`));
-      res.status(200).send(transData);
-    }
-  } else {
-    res.status(500).json({
-      message: 'Server error',
-    });
-  }
-});
-*/
