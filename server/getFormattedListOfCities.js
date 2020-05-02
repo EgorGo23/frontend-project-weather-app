@@ -2,6 +2,7 @@
 const getFormattedListOfCities = (list) => JSON.parse(list)
   .reduce((acc, city) => {
     if (/[^\w\s]/.test(city.name)) return acc;
+    //if (/[\d]/.test(city.name)) return acc;
 
     if (acc.map[city.name]) return acc;
 

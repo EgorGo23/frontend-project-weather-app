@@ -1,4 +1,4 @@
-.cities-list {
+.cities {
     font-family: "Roboto", sans-serif;
     font-size: medium;
     position: absolute;
@@ -7,7 +7,8 @@
     background-color: white;
     box-shadow: 0 0 2rem rgba(0,0,255,.2);
     border-radius: 0.25rem;
-    animation: slideDown 0.1s;
+    animation: slideDown 0.5s;
+
 
     & > ul {
         padding: 0;
@@ -16,6 +17,7 @@
         max-height: 228px;
         list-style-type: none;
         overflow-y: auto;
+        overflow-x: hidden;
         background-color: #fff;
 
         & > li {
@@ -39,5 +41,4 @@
     to {
       transform: translateY(0);
     }
-  
 }

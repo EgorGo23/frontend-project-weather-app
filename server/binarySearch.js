@@ -1,0 +1,3 @@
+const getRange = (list, value) => {
+  
+}

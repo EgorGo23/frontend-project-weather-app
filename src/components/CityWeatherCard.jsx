@@ -1,6 +1,6 @@
 import React from 'react';
 
-const WeatherCard = () => (
+const CityWeatherCard = () => (
   <div className="weather-card">
     <div className="weather-card__city">
       <span>Saint-Petersburg</span>
@@ -34,4 +34,4 @@ const WeatherCard = () => (
   </div>
 );
 
-export default WeatherCard;
+export default CityWeatherCard;

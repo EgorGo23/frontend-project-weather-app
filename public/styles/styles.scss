@@ -206,7 +206,6 @@ html, body, #root {
 
 
 
-
 .city-search-wrapper {
   display: flex;
   flex-flow: column;
@@ -218,7 +217,7 @@ html, body, #root {
 
 .city-search-header {
   width: 100%;
-  min-height: 30%;
+  min-height: 35%;
   display: flex;
   align-items: center;
   flex-flow: column;
@@ -231,9 +230,7 @@ html, body, #root {
     word-break: break-all;
     color: #0c1066;
     margin: 3rem 0 2rem 0;
-    animation: .5s ease-in-out slidedown,1s ease-in-out fadein;
-
-    
+    animation: .5s ease-in-out slidedown,1s ease-in-out fadein;    
   }
 
   .search-city-input-wrapper {
@@ -243,54 +240,133 @@ html, body, #root {
     display: flex;
     align-items: center;
     animation: .5s ease-in-out slidedown,1s ease-in-out fadein;
+
+    .search-city-input {
+      font-family: 'Roboto', sans-serif;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 1rem;
+      border-radius: 2rem;
+      outline: none;
+      border: none;
+      box-shadow: 0 0 2rem 0.15rem rgba(0, 0, 255, 0.1);
+      font-size: 1rem;
+      color: #131F69;
+      text-transform: uppercase;
+
+      &::placeholder {
+        font-size: 1rem;
+        color: #131F69;
+        text-transform: uppercase;
+        letter-spacing: normal;
+      }
+    }
+
+    .search-city-btn {
+      cursor: pointer;
+      position: absolute;
+      background-color: #31feae;
+      height: 3.5rem;
+      width: 3.5rem;
+      border-radius: 50%;
+      right: 0;
+      outline: none;
+      border: none;
+      z-index: 5;
+      box-shadow: 0 0 2rem 0.15rem rgba(0, 0, 255, 0.1);
+    }
+    
+    .search-icon {
+      position: relative;
+      top: 0.2rem;
+      height: 50%;
+      width: 50%;
+    }
   }
-  
-  .search-city-input {
-    font-family: 'Roboto', sans-serif;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 1rem;
-    border-radius: 2rem;
-    outline: none;
-    border: none;
-    box-shadow: 0 0 2rem 0.15rem rgba(0, 0, 255, 0.1);
-    font-size: 1rem;
-    color: #131F69;
-    text-transform: uppercase;
-  }
-  
-  .search-city-input::placeholder {
-    font-size: 1rem;
-    color: #131F69;
-    text-transform: uppercase;
-    letter-spacing: normal;
-  }
-  
-  .search-city-btn {
-    cursor: pointer;
+
+
+}
+
+// Preloader animation
+$count: 10;
+$time: 2; //in seconds
+$size: 30;
+$color: #ffffff;
+
+.preloader-wrapper {
+  position: relative;
+  top: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+
+  .preloader {
+    /* size */
+    width: $size + px;
+    height: $size + px;
     position: absolute;
-    background-color: #31feae;
-    height: 3.5rem;
-    width: 3.5rem;
-    border-radius: 50%;
-    right: 0;
-    outline: none;
-    border: none;
-    z-index: 5;
-    box-shadow: 0 0 2rem 0.15rem rgba(0, 0, 255, 0.1);
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    animation: rotatePreloader $time + s infinite ease-in;
   }
-  
-  .search-icon {
-    position: relative;
-    top: 0.2rem;
-    height: 50%;
-    width: 50%;
+
+  @keyframes rotatePreloader {
+    0% {
+    transform: translateX(-50%) translateY(-50%) rotateZ(0deg);
+    }
+    100% {
+    transform: translateX(-50%) translateY(-50%) rotateZ(-360deg);
+    }
+  }
+  .preloader div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  .preloader div:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    width: 13%;
+    height: 13%;
+    background-color: #131F69;
+    transform: translateX(-50%);
+    border-radius: 50%;
+  }
+
+  @for $i from 1 through $count {
+    .preloader div:nth-child(#{$i}) {
+      transform: rotateZ(((360 / $count) * ($i - 1)) + deg);
+      animation: rotateCircle + $i $time + s infinite linear;
+      z-index: $count - $i;
+    }
+    @keyframes rotateCircle#{$i} {
+      #{percentage(((50 / $count) * ($i - 1)) / 100)} {
+        opacity: 0;
+      }
+      #{percentage((((50 / $count) + 0.0001) * ($i - 1)) / 100)} {
+        opacity: 1;
+        transform: rotateZ((0 - ((360 / $count) * ($i - 2))) + deg);
+      }
+      #{percentage((((50 / $count) * ($i - 0)) + 2) / 100)} {
+        transform: rotateZ((0 - ((360 / $count) * ($i - 1))) + deg);
+      }
+      #{percentage(((50 + ((50 / $count) * ($i - 0))) + 2) / 100)} {
+        transform: rotateZ((0 - ((360 / $count) * ($i - 1))) + deg);
+      }
+      100% {
+        transform: rotateZ((0 - ((360 / $count) * ($count - 1))) + deg);
+        opacity: 1;
+      }
+    }
   }
 }
 
 .city-search-body {
   width: 100%;
-  min-height: 70%;
+  min-height: 65%;
   display: flex;
   flex-flow: column;
   align-items: center;

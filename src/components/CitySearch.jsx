@@ -2,65 +2,55 @@
 /* eslint-disable no-multiple-empty-lines */
 /* eslint-disable no-trailing-spaces */
 import React, { useState, useEffect } from 'react';
-import CitiesList from './CitiesList';
+import Cities from './Cities';
+import CityWeatherCard from './CityWeatherCard';
 
-const CitySearchHeader = () => {
-  const [listCities, setListCities] = useState([]);
+const CitySearch = () => {
+  const [cities, setCities] = useState([]);
   const [query, setQuery] = useState('');
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setQuery(value);
+
+    if (value.length === 0) {
+      setCities([]);
+      return;
+    }
+
+    (async () => {
       setIsError(false);
       setIsLoading(true);
       
       try {
-        const response = await fetch(`/api/getCities?query=${query}`);
+        const response = await fetch(`/api/getCities?query=${value}`);
         const body = await response.json();
 
         if (response.status >= 500) {
           throw new Error('Server Error');
         }
-        
-        setListCities(body);
-      } catch (error) {
-        console.log(`Name: ${error.name}, message: ${error.message}, status: ${error.status}`);
 
-        if (error.name !== 'TypeError' && error.message !== 'Failed to fetch') {
-          console.log('come in');
-          setIsError(true);
-        }
+        setCities(body);
+      } catch (error) {
+        setIsError(true);
       }
       
       setIsLoading(false);
-    };
-    
-    fetchData();
-  }, [query]);
-
-  const handleChange = (event) => {
-    setQuery(event.target.value);
-
-    if (event.target.value === '') {
-      setListCities([]);
-    }
+    })();
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
   }
   
-  const handleFocus = (event) => {
-    
-  }
-
   return (
-    <>
+    <div className="city-search-wrapper">
       <div className="city-search-header">
         <h3 className="city-search-title">SEARCH CITIES</h3>
         <form onSubmit={(event) => handleSubmit(event)} className="search-city-input-wrapper">
-          <input className="search-city-input" value={query} onFocus={(event) => handleFocus(event)} onChange={(event) => handleChange(event)} placeholder="search city" />
+          <input className="search-city-input" value={query} onChange={(event) => handleChange(event)} placeholder="search city" />
           <button type="submit" className="search-city-btn">
             <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451">
               <path
@@ -70,13 +60,35 @@ const CitySearchHeader = () => {
             </svg>
           </button>
         </form>
-        {(listCities.length > 0) ? <CitiesList cities={listCities} /> : <div />}
+        {
+          isLoading  
+          && (
+          <div className="preloader-wrapper">
+            <div className="preloader">
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+            </div>
+          </div>
+          )
+        }
+        {
+          cities.length > 0
+          && <Cities cities={cities} />
+        }
       </div>
       <div className="city-search-body">
-        
+        {/* <CityWeatherCard /> */}
       </div>
-    </>
+    </div>
   );
 };
 
-export default CitySearchHeader;
+export default CitySearch;

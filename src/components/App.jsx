@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import WeatherCard from './WeatherCard';
+import WeatherCard from './CityWeatherCard';
 import ForecastDailyCard from './ForecastDailyСard';
-import FavCitiesList from './FavCitiesList';
+import FavCitiesList from './FavCities';
 import ForecastHourlyCard from './ForecastHourlyСard';
-import CitiesList from './CitiesList';
-import CitySearchHeader from './CitySearchHeader';
+import CitiesList from './Cities';
+import CitySearch from './CitySearch';
+import CitySearchEff from './CitySearchEff';
+
+let mode = 1;
 
 const App = () => {
 
@@ -38,11 +41,7 @@ const App = () => {
 
       <main className="main-container__bg">
         <div className="main-card">
-          <div className="city-search-wrapper">
-            <CitySearchHeader />
-
-            
-          </div>
+          {mode === 1 ? <CitySearch /> : <CitySearchEff />}
 
           {/* <div className="right-panel-wrapper">
             <FavCitiesList />

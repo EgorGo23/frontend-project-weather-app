@@ -18,7 +18,23 @@ let uploadedData = null;
       { encoding: 'utf8' },
     );
     const sortedUniqCitiesInLatinWithSpaces = getFormattedListOfCities(cities);
+
+    // const listRanges = [];
+    // let letter = 'a';
+    // let min = null;
+    // let max = null;
+    // sortedUniqCitiesInLatinWithSpaces.forEach(({ name }) => {
+    //   const letter = '';
+    //   const min = null;
+    //   const max = null;
+    // });
+
+
     uploadedData = sortedUniqCitiesInLatinWithSpaces;
+    console.log(uploadedData.length);
+    console.log(uploadedData.filter(({name}) => /\d/.test(name.toLowerCase())).length);
+    console.log(`${122159-24}`);
+    console.log(/\d/.test(uploadedData[0].name));
   } catch (error) {
     uploadedData = null;
   }
@@ -38,4 +54,9 @@ app.get('/api/getCities', (req, res) => {
   }
 });
 
+
+
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+
