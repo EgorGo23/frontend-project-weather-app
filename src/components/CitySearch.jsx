@@ -11,22 +11,23 @@ const CitySearch = () => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setQuery(value);
+  /* В mappedCities хранится количество городов, которые нужно
+  передать в компонент Cities для отображения.
+  Если пользователь нажимет кнопку 'Показать еще', то компонент Cities
+  увеличивает значение mappedCities с помощью функции increaseCityCounter,
+  после этого родительский компонент(CitySearch) отправляет запрос на сервер
+  с требуемым числом городов. */
+  const [mappedCities, setmappedCities] = useState(10);
 
-    if (value.length === 0) {
-      setCities([]);
-      return;
-    }
-
-    (async () => {
+  useEffect(() => {
+    const fetchData = async () => {
       setIsError(false);
       setIsLoading(true);
       
       try {
-        const response = await fetch(`/api/getCities?query=${value}`);
+        const response = await fetch(`/api/getCities?query=${query}`);
         const body = await response.json();
+        console.log(body.length);
 
         if (response.status >= 500) {
           throw new Error('Server Error');
@@ -38,11 +39,30 @@ const CitySearch = () => {
       }
       
       setIsLoading(false);
-    })();
+    }
+    
+    if (query.length > 0) {
+      fetchData();
+    }
+  }, [query]);
+
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setQuery(value);
+
+    if (value.length === 0) {
+      setCities([]);
+    }
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
+  }
+
+  const increaseCityCounter = (value) => {
+    setV(v + value);
+    console.log(v);
   }
   
   return (
@@ -81,7 +101,7 @@ const CitySearch = () => {
         }
         {
           cities.length > 0
-          && <Cities cities={cities} />
+          && <Cities cities={cities} b={boom} />
         }
       </div>
       <div className="city-search-body">

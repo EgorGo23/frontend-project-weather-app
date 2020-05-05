@@ -3,13 +3,28 @@ const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
 const getFormattedListOfCities = require('./getFormattedListOfCities');
+const getRangeIndices = require('./getRangeIndices');
 
 const readFileAsync = promisify(fs.readFile);
 
 const app = express();
 const port = process.env.PORT || 4300;
 
+/*
+При запуске сервера происходит чтение файла данных 'city.list.json', который
+хранит список городов в виде массива объектов. С помощью функции getFormattedListOfCities
+данные приводятся к нужному виду:
+ - удаляются города, название которых, содержат цифры или нелатинские буквы.
+ - города сортируются по алфавиту.
+
+Далее, в соответствии с форматированным списком городов, функция getRangeIndices
+создает объект, в котором содержатся индексы начала и конца первой буквы
+названия каждого города в алфавитном порядке.
+*/
+
 let uploadedData = null;
+let transData = null;
+let indexRanges = null;
 
 (async () => {
   try {
@@ -18,23 +33,9 @@ let uploadedData = null;
       { encoding: 'utf8' },
     );
     const sortedUniqCitiesInLatinWithSpaces = getFormattedListOfCities(cities);
-
-    // const listRanges = [];
-    // let letter = 'a';
-    // let min = null;
-    // let max = null;
-    // sortedUniqCitiesInLatinWithSpaces.forEach(({ name }) => {
-    //   const letter = '';
-    //   const min = null;
-    //   const max = null;
-    // });
-
-
+    const { rangeList } = getRangeIndices(sortedUniqCitiesInLatinWithSpaces);
+    indexRanges = rangeList;
     uploadedData = sortedUniqCitiesInLatinWithSpaces;
-    console.log(uploadedData.length);
-    console.log(uploadedData.filter(({name}) => /\d/.test(name.toLowerCase())).length);
-    console.log(`${122159-24}`);
-    console.log(/\d/.test(uploadedData[0].name));
   } catch (error) {
     uploadedData = null;
   }
@@ -43,9 +44,26 @@ let uploadedData = null;
 app.get('/api/getCities', (req, res) => {
   if (uploadedData) {
     const { query } = req.query;
-    if (query.length > 0) {
-      const transData = uploadedData.filter(({ name }) => name.toLowerCase().startsWith(`${query.toLowerCase()}`));
+    if (query.length === 1) {
+      // Получаем индексы начала и конца списка городов, начинающихся с query
+      const indexRangeForQuery = indexRanges[query];
+
+      // Из общего списка берем города, начинающиеся с query
+      const listCitiesForQuery = uploadedData
+        .slice(indexRangeForQuery[0], indexRangeForQuery[1] + 1);
+
+      if (listCitiesForQuery.length > 10) {
+        transData = listCitiesForQuery.slice(0, 10);
+        const numCity = listCitiesForQuery.length;
+        const numRemainCity = numCity - numCity;
+      }
+
       res.status(200).send(JSON.stringify(transData));
+    } else {
+      // Когда query.length > 1, фильтрация городов просиходит по списку,
+      // сформированному при query.length === 1.
+      const transDataForMoreThanOneChar = transData.filter(({ name }) => name.toLowerCase().startsWith(`${query.toLowerCase()}`));
+      res.status(200).send(JSON.stringify(transDataForMoreThanOneChar));
     }
   } else {
     res.status(500).json({
@@ -55,8 +73,4 @@ app.get('/api/getCities', (req, res) => {
 });
 
 
-
-
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-
