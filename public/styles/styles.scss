@@ -1,9 +1,9 @@
 @import './reset.css';
 @import './forecast-daily-card_styles.scss';
 @import './forecast-hourly-card_styles.scss';
-@import './weather-card_styles.scss';
-@import './fav-cities-carousel_styles.scss';
-@import './cities-list_styles.scss';
+@import './city-weather-card_styles.scss';
+@import './fav-cities_styles.scss';
+@import './cities_styles.scss';
 
 html, body, #root {
   font-family: sans-serif;
@@ -284,7 +284,26 @@ html, body, #root {
     }
   }
 
+  .city-search-error {
+    font-family: "Roboto", sans-serif;
+    font-size: larger;
+    margin-top: 2rem;
+    width: 80%;
+    border-radius: 0.5rem;
+    background-color: #17a2b8;
+    box-shadow: 0 0 2rem rgba(0,0,255,.2);
+    text-align: center;
+    height: 3rem;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    transition: all 300ms ease;
 
+    &:hover {
+      background-color: #157786;
+    }
+  }
 }
 
 // Preloader animation

@@ -10,8 +10,13 @@ const readFileAsync = promisify(fs.readFile);
 const app = express();
 const port = process.env.PORT || 4300;
 
-/*
-При запуске сервера происходит чтение файла данных 'city.list.json', который
+/* Переменна для хранения прочитанных и форматированных данных из базы */
+let uploadedData = null;
+/* В indexRanges хранятся индексы начала и конца списка городов, начинающихся с query
+Например, если query='m', то indexRanges выглядит как { 'm': [start, end] } */
+let indexRanges = null;
+
+/* При запуске сервера происходит чтение файла данных 'city.list.json', который
 хранит список городов в виде массива объектов. С помощью функции getFormattedListOfCities
 данные приводятся к нужному виду:
  - удаляются города, название которых, содержат цифры или нелатинские буквы.
@@ -20,12 +25,10 @@ const port = process.env.PORT || 4300;
 Далее, в соответствии с форматированным списком городов, функция getRangeIndices
 создает объект, в котором содержатся индексы начала и конца первой буквы
 названия каждого города в алфавитном порядке.
+
+В результате работы IIFE функции заполняются переменные uploadedData и indexRanges,
+необходимые для работы алгоритмы обработки get-запросов.
 */
-
-let uploadedData = null;
-let transData = null;
-let indexRanges = null;
-
 (async () => {
   try {
     const cities = await readFileAsync(
@@ -41,29 +44,47 @@ let indexRanges = null;
   }
 })();
 
+
+/* Переменные, используемые для отправки данных.
+transCities - города, отправляемые с сервера
+transCitiesLength - общие число городов, подходящих под query */
+let transCities = null;
+let transCitiesLength = null;
+
 app.get('/api/getCities', (req, res) => {
   if (uploadedData) {
-    const { query } = req.query;
+    // num - количество городов, требуемое клиентом.
+    const { query, num } = req.query;
     if (query.length === 1) {
-      // Получаем индексы начала и конца списка городов, начинающихся с query
+      /* Получаем индексы начала и конца списка городов, начинающихся с query
+      Например, если query='m', то indexRanges выглядит как { 'm': [start, end] } */
       const indexRangeForQuery = indexRanges[query];
 
       // Из общего списка берем города, начинающиеся с query
       const listCitiesForQuery = uploadedData
         .slice(indexRangeForQuery[0], indexRangeForQuery[1] + 1);
 
-      if (listCitiesForQuery.length > 10) {
-        transData = listCitiesForQuery.slice(0, 10);
-        const numCity = listCitiesForQuery.length;
-        const numRemainCity = numCity - numCity;
-      }
+      transCities = listCitiesForQuery;
+      transCitiesLength = transCities.length;
 
-      res.status(200).send(JSON.stringify(transData));
+      // Отправляем на клиент num первых элементов списка городов и длину самого списка
+      res.status(200)
+        .send(JSON.stringify({
+          cities: transCities.slice(0, num),
+          transCitiesLength,
+        }));
     } else {
-      // Когда query.length > 1, фильтрация городов просиходит по списку,
-      // сформированному при query.length === 1.
-      const transDataForMoreThanOneChar = transData.filter(({ name }) => name.toLowerCase().startsWith(`${query.toLowerCase()}`));
-      res.status(200).send(JSON.stringify(transDataForMoreThanOneChar));
+      /* Когда query.length > 1, фильтрация городов просиходит по списку,
+      сформированному при query.length === 1. */
+      const transCitiesForMoreThanOneChar = transCities.filter(({ name }) => name.toLowerCase().startsWith(`${query.toLowerCase()}`));
+      transCitiesLength = transCitiesForMoreThanOneChar.length;
+
+      // Отправляем на клиент num первых элементов списка городов и длину самого списка
+      res.status(200)
+        .send(JSON.stringify({
+          cities: transCitiesForMoreThanOneChar.slice(0, num),
+          transCitiesLength,
+        }));
     }
   } else {
     res.status(500).json({
@@ -71,6 +92,5 @@ app.get('/api/getCities', (req, res) => {
     });
   }
 });
-
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

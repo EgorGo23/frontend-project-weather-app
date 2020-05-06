@@ -11,45 +11,54 @@ const CitySearch = () => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  /* В mappedCities хранится количество городов, которые нужно
-  передать в компонент Cities для отображения.
-  Если пользователь нажимет кнопку 'Показать еще', то компонент Cities
-  увеличивает значение mappedCities с помощью функции increaseCityCounter,
-  после этого родительский компонент(CitySearch) отправляет запрос на сервер
-  с требуемым числом городов. */
-  const [mappedCities, setmappedCities] = useState(10);
+  /* В numCitiesExpectFromServer хранится число городов, которое необходимо получить 
+  от сервера. Изначально оно равняется 10. Но с помощью функции increaseCityCounter
+  (передается в компонент Cities) оно может быть увеличено */
+  const [numCitiesExpectFromServer, setNumCitiesExpectFromServer] = useState(10);
+
+  /* Помимо самих городов(в количестве numCitiesExpectFromServer), с сервера приходит также 
+  численное значение общего количества городов, подходящих под текущую query строку и 
+  записывается в переменную totalNumCitiesForQuery. Это необходимо для определения того, 
+  когда показывать пользавателям кнопку 'Show more'. */
+  const [totalNumCitiesForQuery, setTotalNumCitiesForQuery] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsError(false);
       setIsLoading(true);
-      
+
       try {
-        const response = await fetch(`/api/getCities?query=${query}`);
+        const response = await fetch(`/api/getCities?query=${query}&num=${numCitiesExpectFromServer}`);
         const body = await response.json();
-        console.log(body.length);
 
         if (response.status >= 500) {
           throw new Error('Server Error');
         }
-
-        setCities(body);
+        setTotalNumCitiesForQuery(body.transCitiesLength);
+        setCities(body.cities);
       } catch (error) {
         setIsError(true);
       }
-      
+
       setIsLoading(false);
     }
-    
+
     if (query.length > 0) {
       fetchData();
     }
-  }, [query]);
+  }, [query, numCitiesExpectFromServer]);
 
 
   const handleChange = (event) => {
     const { value } = event.target;
+    if (/[^\w\s]|\d/.test(value)) {
+      return;
+    }
+
+    /* При каждом вводе символа устанавливаем число городов,
+    запрашиваемых с сервера в дефолтное состояние(10). */
     setQuery(value);
+    setNumCitiesExpectFromServer(10);
 
     if (value.length === 0) {
       setCities([]);
@@ -61,10 +70,9 @@ const CitySearch = () => {
   }
 
   const increaseCityCounter = (value) => {
-    setV(v + value);
-    console.log(v);
+    setNumCitiesExpectFromServer(numCitiesExpectFromServer + value);
   }
-  
+
   return (
     <div className="city-search-wrapper">
       <div className="city-search-header">
@@ -81,27 +89,41 @@ const CitySearch = () => {
           </button>
         </form>
         {
-          isLoading  
+          isError
           && (
-          <div className="preloader-wrapper">
-            <div className="preloader">
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
-              <div />
+            <button className="city-search-error" onClick={() => window.location.reload()}>
+              <span>Error, click to reload page</span>
+            </button>
+          )
+        }
+        {
+          isLoading
+          && (
+            <div className="preloader-wrapper">
+              <div className="preloader">
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+                <div />
+              </div>
             </div>
-          </div>
           )
         }
         {
           cities.length > 0
-          && <Cities cities={cities} b={boom} />
+          && (
+            <Cities
+              cities={cities}
+              increaseCounter={increaseCityCounter}
+              totalNumCitiesForQuery={totalNumCitiesForQuery}
+            />
+          )
         }
       </div>
       <div className="city-search-body">
