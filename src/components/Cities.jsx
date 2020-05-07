@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { store } from '../store';
 
 const Cities = ({
   cities, increaseCounter, totalNumCitiesForQuery,
 }) => {
-  const handleClick = ({ target }) => {
-    if (target.classList.contains('show-more')) {
+  const { dispatch } = useContext(store);
+
+  const handleClickShowMore = ({ target }) => {
+    if (target.classList.contains('cities__show-more')) {
       /* При нажатии на кнопку 'Show more':
       Если разность между общим числом городов(т.е. totalNumCitiesForQuery), содержащих
       строку query, и числом городов, пришедших с сервера меньше 10, то увеличиваем значение
@@ -19,17 +22,27 @@ const Cities = ({
     }
   };
 
+  const handleClickGetId = (id) => {
+    dispatch({ type: 'ADD_ID', payload: id });
+    dispatch({ type: 'CHANGE_TEXT', payload: '' });
+    dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: [] });
+  };
+
   return (
     <div className="cities">
-      <ul onClick={(event) => handleClick(event)}>
+      <ul className="cities__list">
         {cities.map((city) => (
-          <li key={city.id}>
+          <li key={city.id} className="cities__item" onClick={() => handleClickGetId(city.id)}>
             {city.name}
           </li>
         ))}
         {
           (totalNumCitiesForQuery - cities.length > 0)
-          && <li className="show-more">Show more</li>
+          && (
+          <li className="cities__show-more" onClick={(event) => handleClickShowMore(event)}>
+            Show more
+          </li>
+          )
         }
       </ul>
     </div>

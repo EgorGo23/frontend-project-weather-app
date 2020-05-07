@@ -1,15 +1,15 @@
 /* eslint-disable semi */
 /* eslint-disable no-multiple-empty-lines */
 /* eslint-disable no-trailing-spaces */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Cities from './Cities';
 import CityWeatherCard from './CityWeatherCard';
+import { store } from '../store';
 
 const CitySearch = () => {
-  const [cities, setCities] = useState([]);
-  const [query, setQuery] = useState('');
-  const [isError, setIsError] = useState(false);
+  const [isErrorFetch, setIsErrorFetch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPrompt, setIsPrompt] = useState(false);
 
   /* В numCitiesExpectFromServer хранится число городов, которое необходимо получить 
   от сервера. Изначально оно равняется 10. Но с помощью функции increaseCityCounter
@@ -22,34 +22,46 @@ const CitySearch = () => {
   когда показывать пользавателям кнопку 'Show more'. */
   const [totalNumCitiesForQuery, setTotalNumCitiesForQuery] = useState(0);
 
+  // Если пользователь ошибётся в написании города и нажмет enter, появится предупреждение
+  const [isErrorUser, setIsErrorUser] = useState(false);
+
+  // Получение параметров из глобального состояния
+  const { globalState, dispatch } = useContext(store);
+  const { citySearchText, idSelectedCity, citiesSearch } = globalState;
+
   useEffect(() => {
     const fetchData = async () => {
-      setIsError(false);
+      setIsErrorFetch(false);
       setIsLoading(true);
 
       try {
-        const response = await fetch(`/api/getCities?query=${query}&num=${numCitiesExpectFromServer}`);
+        const response = await fetch(`/api/getCities?query=${citySearchText}&num=${numCitiesExpectFromServer}`);
         const body = await response.json();
 
         if (response.status >= 500) {
           throw new Error('Server Error');
         }
         setTotalNumCitiesForQuery(body.transCitiesLength);
-        setCities(body.cities);
+        dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: body.cities });
       } catch (error) {
-        setIsError(true);
+        setIsErrorFetch(true);
+        dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: [] });
+        setIsPrompt(false);
       }
 
       setIsLoading(false);
     }
 
-    if (query.length > 0) {
+    if (citySearchText.length > 0) {
       fetchData();
     }
-  }, [query, numCitiesExpectFromServer]);
+  }, [citySearchText, dispatch, numCitiesExpectFromServer]);
 
 
   const handleChange = (event) => {
+    setIsPrompt(false);
+    setIsErrorUser(false);
+
     const { value } = event.target;
     if (/[^\w\s]|\d/.test(value)) {
       return;
@@ -57,16 +69,26 @@ const CitySearch = () => {
 
     /* При каждом вводе символа устанавливаем число городов,
     запрашиваемых с сервера в дефолтное состояние(10). */
-    setQuery(value);
+    dispatch({ type: 'CHANGE_TEXT', payload: value });
     setNumCitiesExpectFromServer(10);
 
     if (value.length === 0) {
-      setCities([]);
+      setIsPrompt(true);
+      dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: [] });
     }
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (citiesSearch.length !== 0) {
+      dispatch({ type: 'ADD_ID', payload: citiesSearch[0].id });
+      dispatch({ type: 'CHANGE_TEXT', payload: '' });
+      dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: [] });
+    } else {
+      setIsErrorUser(true);
+      dispatch({ type: 'CHANGE_TEXT', payload: '' });
+    }
   }
 
   const increaseCityCounter = (value) => {
@@ -78,7 +100,7 @@ const CitySearch = () => {
       <div className="city-search-header">
         <h3 className="city-search-title">SEARCH CITIES</h3>
         <form onSubmit={(event) => handleSubmit(event)} className="search-city-input-wrapper">
-          <input className="search-city-input" value={query} onChange={(event) => handleChange(event)} placeholder="search city" />
+          <input className="search-city-input" onFocus={() => setIsPrompt(true)} value={citySearchText} onChange={handleChange} placeholder="search city" />
           <button type="submit" className="search-city-btn">
             <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451">
               <path
@@ -89,9 +111,23 @@ const CitySearch = () => {
           </button>
         </form>
         {
-          isError
+          isPrompt && !idSelectedCity && !isErrorFetch && !isErrorUser
           && (
-            <button className="city-search-error" onClick={() => window.location.reload()}>
+            <span className="city-search-prompt">Enter the city name in English</span>
+          )
+        }
+        {
+          isErrorUser && !isErrorFetch
+          && (
+            <span className="city-search-error-user">
+              City not found, enter the correct name
+            </span>
+          )
+        }
+        {
+          isErrorFetch && !isErrorUser
+          && (
+            <button className="city-search-error-fetch" onClick={() => window.location.reload()}>
               <span>Error, click to reload page</span>
             </button>
           )
@@ -116,10 +152,10 @@ const CitySearch = () => {
           )
         }
         {
-          cities.length > 0
+          citiesSearch.length > 0
           && (
             <Cities
-              cities={cities}
+              cities={citiesSearch}
               increaseCounter={increaseCityCounter}
               totalNumCitiesForQuery={totalNumCitiesForQuery}
             />
@@ -127,7 +163,7 @@ const CitySearch = () => {
         }
       </div>
       <div className="city-search-body">
-        {/* <CityWeatherCard /> */}
+        <CityWeatherCard />
       </div>
     </div>
   );

@@ -9,7 +9,7 @@
     border-radius: 1.75rem;
     display: flex;
     flex-flow: column;
-    margin-top: 1rem;
+    animation: 1s ease-in-out slideup,1.25s ease-in-out fadein;
 
     %weather-card__item {
       display: flex;

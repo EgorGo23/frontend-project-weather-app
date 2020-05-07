@@ -63,7 +63,7 @@ app.get('/api/getCities', (req, res) => {
       // Из общего списка берем города, начинающиеся с query
       const listCitiesForQuery = uploadedData
         .slice(indexRangeForQuery[0], indexRangeForQuery[1] + 1);
-
+      console.log(`indexRangeForQuery: ${indexRangeForQuery}, transCities: ${listCitiesForQuery.length}`);
       transCities = listCitiesForQuery;
       transCitiesLength = transCities.length;
 
