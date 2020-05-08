@@ -4,7 +4,8 @@ import React, { createContext, useReducer } from 'react';
 const initialState = {
   theme: 'light',
   idSelectedCity: null,
-  citySearchText: '',
+  searchText: '',
+  searchErrorFetch: false,
   citiesSearch: [],
 };
 
@@ -17,7 +18,7 @@ const StateProvider = ({ children }) => {
       case 'CHANGE_TEXT':
         return {
           ...state,
-          citySearchText: action.payload,
+          searchText: action.payload,
         };
       case 'CHANGE_CITIES_SEARCH_LIST':
         return {
@@ -28,6 +29,11 @@ const StateProvider = ({ children }) => {
         return {
           ...state,
           idSelectedCity: action.payload,
+        };
+      case 'SET_SEARCH_ERROR':
+        return {
+          ...state,
+          searchErrorFetch: action.payload,
         };
       default:
         throw new Error();

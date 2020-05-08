@@ -12,15 +12,10 @@ const App = () => (
     <Header />
     <main className="main-container__bg">
       <div className="main-card">
-        <CitySearch />
-
-        {/* <div className="right-panel-wrapper">
-              <FavCitiesList />
-              <ForecastDailyCard />
-              <ForecastHourlyCard />
-            </div> */}
-
-
+        {/* <CitySearch /> */}
+        <div className="right-panel-wrapper">
+          <FavCitiesList />
+        </div>
       </div>
     </main>
   </>

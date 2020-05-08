@@ -7,7 +7,6 @@ import CityWeatherCard from './CityWeatherCard';
 import { store } from '../store';
 
 const CitySearch = () => {
-  const [isErrorFetch, setIsErrorFetch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(false);
 
@@ -27,24 +26,27 @@ const CitySearch = () => {
 
   // Получение параметров из глобального состояния
   const { globalState, dispatch } = useContext(store);
-  const { citySearchText, idSelectedCity, citiesSearch } = globalState;
+  const {
+    searchText, idSelectedCity, citiesSearch, searchErrorFetch, 
+  } = globalState;
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsErrorFetch(false);
+      dispatch({ type: 'SET_SEARCH_ERROR', payload: false });
       setIsLoading(true);
 
       try {
-        const response = await fetch(`/api/getCities?query=${citySearchText}&num=${numCitiesExpectFromServer}`);
+        const response = await fetch(`/api/getCities?query=${searchText}&num=${numCitiesExpectFromServer}`);
         const body = await response.json();
 
         if (response.status >= 500) {
           throw new Error('Server Error');
         }
+        
         setTotalNumCitiesForQuery(body.transCitiesLength);
         dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: body.cities });
       } catch (error) {
-        setIsErrorFetch(true);
+        dispatch({ type: 'SET_SEARCH_ERROR', payload: true });
         dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: [] });
         setIsPrompt(false);
       }
@@ -52,10 +54,10 @@ const CitySearch = () => {
       setIsLoading(false);
     }
 
-    if (citySearchText.length > 0) {
+    if (searchText.length > 0) {
       fetchData();
     }
-  }, [citySearchText, dispatch, numCitiesExpectFromServer]);
+  }, [searchText, dispatch, numCitiesExpectFromServer]);
 
 
   const handleChange = (event) => {
@@ -100,7 +102,7 @@ const CitySearch = () => {
       <div className="city-search-header">
         <h3 className="city-search-title">SEARCH CITIES</h3>
         <form onSubmit={(event) => handleSubmit(event)} className="search-city-input-wrapper">
-          <input className="search-city-input" onFocus={() => setIsPrompt(true)} value={citySearchText} onChange={handleChange} placeholder="search city" />
+          <input className="search-city-input" onFocus={() => setIsPrompt(true)} value={searchText} onChange={handleChange} placeholder="search city" />
           <button type="submit" className="search-city-btn">
             <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451">
               <path
@@ -111,23 +113,23 @@ const CitySearch = () => {
           </button>
         </form>
         {
-          isPrompt && !idSelectedCity && !isErrorFetch && !isErrorUser
+          isPrompt && !idSelectedCity && !searchErrorFetch && !isErrorUser
           && (
             <span className="city-search-prompt">Enter the city name in English</span>
           )
         }
         {
-          isErrorUser && !isErrorFetch
+          isErrorUser && !searchErrorFetch
           && (
-            <span className="city-search-error-user">
+            <span className="city-search-header-error-user">
               City not found, enter the correct name
             </span>
           )
         }
         {
-          isErrorFetch && !isErrorUser
+          searchErrorFetch && !isErrorUser
           && (
-            <button className="city-search-error-fetch" onClick={() => window.location.reload()}>
+            <button className="city-search-header-error-fetch" onClick={() => window.location.reload()}>
               <span>Error, click to reload page</span>
             </button>
           )
@@ -165,6 +167,7 @@ const CitySearch = () => {
       <div className="city-search-body">
         <CityWeatherCard />
       </div>
+      
     </div>
   );
 };

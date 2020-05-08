@@ -291,7 +291,7 @@ html, body, #root {
     animation: .5s ease-in-out slidedown,1s ease-in-out fadein;
   }
 
-  .city-search-error-user {
+  .city-search-header-error-user {
     font-family: "Roboto", sans-serif;
     font-size: larger;
     margin-top: 1rem;
@@ -299,7 +299,7 @@ html, body, #root {
     animation: .5s ease-in-out slidedown;
   }
 
-  .city-search-error-fetch {
+  .city-search-header-error-fetch {
     font-family: "Roboto", sans-serif;
     font-size: larger;
     margin-top: 1rem;
@@ -405,6 +405,13 @@ $color: #ffffff;
   display: flex;
   flex-flow: column;
   align-items: center;
+
+  .city-search-body-error-fetch {
+    font-family: "Roboto", sans-serif;
+    font-size: larger;
+    color: #dc3545;
+    text-align: center;
+  }
 }
 
 
