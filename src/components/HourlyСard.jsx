@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ForecastHourlyСard = () => {
+const HourlyСard = () => {
     return (
         <div className="forecast-hourly-card">
             <ul className="forecast-hourly-card__list">
@@ -57,4 +57,4 @@ const ForecastHourlyСard = () => {
     )
 }
 
-export default ForecastHourlyСard;
+export default HourlyСard;

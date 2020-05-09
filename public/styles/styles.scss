@@ -1,9 +1,9 @@
 @import './reset.css';
-@import './forecast-daily-card_styles.scss';
-@import './forecast-hourly-card_styles.scss';
-@import './city-weather-card_styles.scss';
-@import './fav-cities_styles.scss';
-@import './cities_styles.scss';
+@import './daily-card.scss';
+@import './hourly-card.scss';
+@import './city-weather-card.scss';
+@import './slider.scss';
+@import './cities.scss';
 
 html, body, #root {
   font-family: sans-serif;

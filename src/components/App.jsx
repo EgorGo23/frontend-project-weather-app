@@ -1,11 +1,7 @@
-import React, { useContext } from 'react';
-import WeatherCard from './CityWeatherCard';
-import ForecastDailyCard from './ForecastDailyСard';
-import FavCitiesList from './FavCities';
-import ForecastHourlyCard from './ForecastHourlyСard';
-import CitiesList from './Cities';
-import CitySearch from './CitySearch';
+import React from 'react';
+import Slider from './Slider/Slider';
 import Header from './Header';
+import CitySearch from './CitySearch';
 
 const App = () => (
   <>
@@ -14,7 +10,7 @@ const App = () => (
       <div className="main-card">
         {/* <CitySearch /> */}
         <div className="right-panel-wrapper">
-          <FavCitiesList />
+          <Slider />
         </div>
       </div>
     </main>

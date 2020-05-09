@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ForecastDailyСard = () => {
+const DailyСard = () => {
 
     return (
         <div className="city-weather-forecast-wrapper">
@@ -69,4 +69,4 @@ const ForecastDailyСard = () => {
     )
 }
 
-export default ForecastDailyСard;
+export default DailyСard;

@@ -53,6 +53,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', 'scss'],
+    alias: {
+      Icons: path.resolve(__dirname, 'public/icons/'),
+    },
   },
   optimization: optimization(),
   devServer: {
@@ -92,6 +95,14 @@ module.exports = {
           },
           'postcss-loader',
           'sass-loader',
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
         ],
       },
     ],
