@@ -23,7 +23,7 @@ const Cities = ({
   };
 
   const handleClickGetId = (id) => {
-    dispatch({ type: 'ADD_ID', payload: id });
+    dispatch({ type: 'ADD_ID_SEARCHED_CITY', payload: id });
     dispatch({ type: 'CHANGE_TEXT', payload: '' });
     dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: [] });
   };

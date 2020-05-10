@@ -1,84 +1,165 @@
-import React, { useState, useContext } from 'react';
+import React, {
+  useState, useContext, useEffect,
+} from 'react';
 import { store } from '../../store';
 import SliderContent from './SliderContent';
 import Arrow from './Arrow';
-import Slide from './Slide';
 
 const Slider = () => {
-  const { globalState, dispatch } = useContext(store);
-
+  const { globalState } = useContext(store);
   const { favCities } = globalState;
 
-  const [state, setState] = useState({
-    activeIndexes: {
-      firstInd: 0,
-      lastInd: 2,
+  const initialState = {
+    activeSlides: {
+      first: 0,
+      second: 1,
+      third: 2,
     },
     translate: 0,
     transition: 0.45,
-  });
-
-  const { translate, transition, activeIndexes } = state;
-
-  const nextSlide = () => {
-    if (activeIndexes.lastInd === favCities.length - 1) {
-      return setState({
-        ...state,
-        translate: 0,
-        activeIndexes: {
-          firstInd: favCities.length - 2,
-          lastInd: 0,
-        },
-      });
-    }
-
-    setState({
-      ...state,
-      activeIndexes: {
-        firstInd: activeIndexes.firstInd + 1,
-        lastInd: activeIndexes.lastInd + 1,
-      },
-      translate: (activeIndexes.firstInd + 1) * 144,
-    });
-  };
-
-  const prevSlide = () => {
-    if (activeIndexes.firstInd === 0) {
-      return setState({
-        ...state,
-        translate: (favCities.length - 1) * 144,
-        activeIndexes: {
-          firstInd: favCities.length - 1,
-          lastInd: activeIndexes.lastInd - 1,
-        },
-      });
-    }
-
-    setState({
-      ...state,
-      activeIndexes: {
-        firstInd: activeIndexes.firstInd - 1,
-        lastInd: activeIndexes.lastInd - 1,
-      },
-      translate: (activeIndexes - 1) * 144,
-    });
+    slides: [],
   }
-  console.log(state);
+  const [state, setState] = useState(initialState);
+
+  const { activeSlides, translate, transition, slides } = state;
+
+  useEffect(() => {
+    const { first, second, third } = activeSlides;
+    let prev = null;
+    let middle = [];
+    let next = null;
+
+    if (activeSlides.first === 0) {
+      prev = favCities.slice(favCities.length - 1);
+    } else {
+      prev = favCities.slice(activeSlides.first - 1, activeSlides.first);
+    }
+
+    if (activeSlides.third === favCities.length - 1) {
+      next = favCities.slice(0, 1);
+    } else {
+      next = favCities.slice(activeSlides.third + 1, activeSlides.third + 2);
+    }
+
+    middle.push(favCities[first], favCities[second], favCities[third]);
+
+    setState({
+      ...state,
+      slides: prev.concat(middle).concat(next),
+    })
+
+    return () => setState(initialState);
+  }, [activeSlides]);
+
+  const goPrevSlide = () => {
+    if (activeSlides.first === 0) {
+      setState({
+        ...state,
+        activeSlides: {
+          first: favCities.length - 1,
+          second: activeSlides.second - 1,
+          third: activeSlides.third - 1,
+        }
+      });
+    } else if (activeSlides.second === 0) {
+      setState({
+        ...state,
+        activeSlides: {
+          first: activeSlides.first - 1,
+          second: favCities.length - 1,
+          third: activeSlides.third - 1,
+        }
+      });
+    } else if (activeSlides.third === 0) {
+      setState({
+        ...state,
+        activeSlides: {
+          first: activeSlides.first - 1,
+          second: activeSlides.second - 1,
+          third: favCities.length - 1,
+        }
+      });
+    } else {
+      setState({
+        ...state,
+        activeSlides: {
+          first: activeSlides.first - 1,
+          second: activeSlides.second - 1,
+          third: activeSlides.third - 1,
+        }
+      });
+    }
+  }
+
+  const goNextSlide = () => {
+    if (activeSlides.third === favCities.length - 1) {
+      setState({
+        ...state,
+        activeSlides: {
+          first: activeSlides.first + 1,
+          second: activeSlides.second + 1,
+          third: 0,
+        }
+      });
+    } else if (activeSlides.second === favCities.length - 1) {
+      setState({
+        ...state,
+        activeSlides: {
+          first: activeSlides.first + 1,
+          second: 0,
+          third: activeSlides.third + 1,
+        }
+      })
+    } else if (activeSlides.first === favCities.length - 1) {
+      setState({
+        ...state,
+        activeSlides: {
+          first: 0,
+          second: activeSlides.second + 1,
+          third: activeSlides.third + 1,
+        }
+      })
+    } else {
+      setState({
+        ...state,
+        activeSlides: {
+          first: activeSlides.first + 1,
+          second: activeSlides.second + 1,
+          third: activeSlides.third + 1,
+        }
+      })
+    }
+  }
+
   return (
     <div className="slider">
-      <Arrow direction="prev" handleClick={prevSlide} />
+      <Arrow direction="prev" handleClick={goPrevSlide} />
 
-      <div className="wrapper">
+      <div className="slider-wrapper">
         <SliderContent
           translate={translate}
           transition={transition}
+          slides={slides}
         />
       </div>
 
-      <Arrow direction="next" handleClick={nextSlide} />
+      <Arrow direction="next" handleClick={goNextSlide} />
     </div>
   );
 };
 
 
 export default Slider;
+
+// const autoPlayref = useRef();
+// useEffect(() => {
+//   autoPlayref.current = nextSlide;
+// });
+
+// useEffect(() => {
+//   const play = () => {
+//     autoPlayref.current();
+//   };
+//   const interval = setInterval(play, 2000);
+//   return () => clearInterval(interval);
+// }, []);

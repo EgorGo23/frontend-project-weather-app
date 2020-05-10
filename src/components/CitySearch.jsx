@@ -27,7 +27,7 @@ const CitySearch = () => {
   // Получение параметров из глобального состояния
   const { globalState, dispatch } = useContext(store);
   const {
-    searchText, idSelectedCity, citiesSearch, searchErrorFetch, 
+    searchText, idSearchedCity, citiesSearch, searchErrorFetch, 
   } = globalState;
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const CitySearch = () => {
     event.preventDefault();
 
     if (citiesSearch.length !== 0) {
-      dispatch({ type: 'ADD_ID', payload: citiesSearch[0].id });
+      dispatch({ type: 'ADD_ID_SEARCHED_CITY', payload: citiesSearch[0].id });
       dispatch({ type: 'CHANGE_TEXT', payload: '' });
       dispatch({ type: 'CHANGE_CITIES_SEARCH_LIST', payload: [] });
     } else {
@@ -113,7 +113,7 @@ const CitySearch = () => {
           </button>
         </form>
         {
-          isPrompt && !idSelectedCity && !searchErrorFetch && !isErrorUser
+          isPrompt && !idSearchedCity && !searchErrorFetch && !isErrorUser
           && (
             <span className="city-search-prompt">Enter the city name in English</span>
           )

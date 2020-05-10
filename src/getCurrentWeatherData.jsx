@@ -1,7 +1,7 @@
 import React from 'react';
 
-const getWeatherData = ({
-  weather, main, clouds, name,
+const getCurrentWeatherData = ({
+  weather, main, clouds, name = '', coord, id
 }) => {
   let svg = null;
   const date = new Date();
@@ -37,7 +37,9 @@ const getWeatherData = ({
     weatherText,
     main,
     svg,
+    coord,
+    id,
   };
 };
 
-export default getWeatherData;
+export default getCurrentWeatherData;

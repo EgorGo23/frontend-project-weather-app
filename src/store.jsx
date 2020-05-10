@@ -3,19 +3,20 @@ import React, { createContext, useReducer } from 'react';
 
 const initialState = {
   theme: 'light',
-  idSelectedCity: null,
+  idSearchedCity: null,
   searchText: '',
   searchErrorFetch: false,
   citiesSearch: [],
   favCities: [
-    { name: 'Moscow', id: 524894 },
-    { name: 'Berlin', id: 2950158 },
-    { name: 'New York', id: 5128638 },
-    { name: 'London', id: 2643743 },
-    { name: 'Hong Kong', id: 1819729 },
-    { name: 'Tokyo', id: 1850147 },
-    { name: 'Beijing', id: 1816670 },
+    { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
+    { name: 'Berlin', id: 2950158, coord: { lon: 10.45, lat: 54.03 } },
+    { name: 'New York', id: 5128638, coord: { lon: -75.5, lat: 43 } },
+    { name: 'London', id: 2643743, coord: { lon: -0.13, lat: 51.51 } },
+    { name: 'Hong Kong', id: 1819729, coord: { lon: 114.16, lat: 22.29 } },
+    { name: 'Tokyo', id: 1850147, coord: { lon: 139.69, lat: 35.69 } },
+    { name: 'Beijing', id: 1816670, coord: { lon: 116.4, lat: 39.91 } },
   ],
+  selectedFavCity: { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
 };
 
 const store = createContext(initialState);
@@ -34,10 +35,10 @@ const StateProvider = ({ children }) => {
           ...state,
           citiesSearch: payload,
         };
-      case 'ADD_ID':
+      case 'ADD_ID_SEARCHED_CITY':
         return {
           ...state,
-          idSelectedCity: payload,
+          idSearchedCity: payload,
         };
       case 'SET_SEARCH_ERROR':
         return {
@@ -51,6 +52,11 @@ const StateProvider = ({ children }) => {
             payload,
             ...state.favCities,
           ],
+        };
+      case 'SELECT_FAV_CITY':
+        return {
+          ...state,
+          selectedFavCity: payload,
         };
       default:
         throw new Error();

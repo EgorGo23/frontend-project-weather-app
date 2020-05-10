@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import cn from 'classnames';
-import getWeatherData from '../getWeatherData';
+import getCurrentWeatherData from '../getCurrentWeatherData';
 import { store } from '../store';
 
 const CityWeatherCard = () => {
@@ -8,7 +8,7 @@ const CityWeatherCard = () => {
   const [weatherData, setWeatherData] = useState(null);
 
   const { globalState, dispatch } = useContext(store);
-  const { idSelectedCity } = globalState;
+  const { idSearchedCity } = globalState;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,10 +16,10 @@ const CityWeatherCard = () => {
       setIsLoading(true);
 
       try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${idSelectedCity}&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric`);
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${idSearchedCity}&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric`);
         const body = await response.json();
-
-        setWeatherData(getWeatherData(body));
+        
+        setWeatherData(getCurrentWeatherData(body));
       } catch (error) {
         dispatch({ type: 'SET_SEARCH_ERROR', payload: true });
         setWeatherData(null);
@@ -28,10 +28,16 @@ const CityWeatherCard = () => {
       setIsLoading(false);
     };
 
-    if (idSelectedCity) {
+    if (idSearchedCity) {
       fetchData();
     }
-  }, [dispatch, idSelectedCity]);
+  }, [dispatch, idSearchedCity]);
+
+
+  const addCitytoFav = (data) => {
+    dispatch({ type: 'ADD_TO_FAV', payload: { name: data.name, id: data.id, coord: data.coord } });
+    setWeatherData(null);
+  }
 
   return (
     <>
@@ -92,7 +98,7 @@ const CityWeatherCard = () => {
               </div>
             </div>
             <div className="weather-card__add-city-btn">
-              <button className="add-city-btn">ADD CITY +</button>
+              <button className="add-city-btn" onClick={() => addCitytoFav(weatherData)}>ADD CITY +</button>
             </div>
           </div>
         )

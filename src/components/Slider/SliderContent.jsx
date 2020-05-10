@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Slide from './Slide';
 import { store } from '../../store';
 
-const SliderContent = ({ translate, transition }) => {
+const SliderContent = ({ translate, transition, slides }) => {
   const styles = {
     transform: `translateX(-${translate}px)`,
     transition: `transform ease-out ${transition}s`,
@@ -13,20 +13,26 @@ const SliderContent = ({ translate, transition }) => {
   };
 
   const { globalState, dispatch } = useContext(store);
+  const { selectedFavCity } = globalState;
 
-  const { favCities } = globalState;
-
-  const handleClick = (id) => { }
+  const selectItem = (data) => {
+    dispatch({ type: 'SELECT_FAV_CITY', payload: data });
+  }
 
   return (
-    <ul
+    <div
       className="slider__content"
       style={styles}
     >
-      {favCities.map(({ name, id }) => (
-        <Slide key={id} name={name} />
+      {slides.slice(1,4).map((data) => (
+        <Slide 
+          key={data.id} 
+          isActive={data.id === selectedFavCity.id ? true : false} 
+          selectItem={selectItem} 
+          data={data}
+        />
       ))}
-    </ul>
+    </div>
   );
 };
 

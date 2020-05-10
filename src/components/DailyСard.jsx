@@ -1,6 +1,49 @@
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
+import getWeatherData from '../getCurrentWeatherData';
+import { store } from '../store';
 
 const DailyСard = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [weatherData, setWeatherData] = useState({
+        name: '',
+        list: [],
+    });
+
+    const { globalState, dispatch } = useContext(store);
+    const { idFavCity } = globalState;
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsError(false);
+            setIsLoading(true);
+            
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=55.76&lon=37.61&exclude=current,minutely,hourly&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric`);
+                const body = await response.json();
+                
+                console.log(body.daily);
+                setWeatherData({
+                    name: body.city.name,
+                    list: body.list,
+                });
+            } catch (error) {
+                setIsError(true);
+            }
+
+            setIsLoading(false);
+        };
+
+        fetchData();
+    }, [idFavCity]);
+    coord:
+lat: 55.76
+lon: 37.61
+    // console.log(weatherData);
+
+    const getDataToday = (list) => {
+        
+    }
 
     return (
         <div className="city-weather-forecast-wrapper">
@@ -11,7 +54,7 @@ const DailyСard = () => {
                     <span className="weather-condition">Облачно</span>
                     <div className="city-weather-data">
                         <div className="city-temp">
-                            <img className="city-weather-icon" width="60" height="60" src="../../public/icons/animated/cloudy.svg" />
+                            {/* <img className="city-weather-icon" width="60" height="60" src="../../public/icons/animated/cloudy.svg" /> */}
                             <span className="temp-metric">5°</span>
                         </div>
                         <div className="city-wind-hum-pres">
