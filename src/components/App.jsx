@@ -10,9 +10,10 @@ const App = () => (
     <main className="main-container__bg">
       <div className="main-card">
         <CitySearch />
-        <div className="right-panel-wrapper">
+        <div className="weather-view">
           <Slider />
           {/* <DailyCard /> */}
+          
         </div>
       </div>
     </main>

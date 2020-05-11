@@ -134,3 +134,11 @@
     height: 20%;
   }
 }
+
+
+
+@media screen and (max-width: 500px) {
+  .weather-card {
+    margin-top: 1rem;
+  }
+}

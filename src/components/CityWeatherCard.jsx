@@ -36,6 +36,7 @@ const CityWeatherCard = () => {
 
   const addCitytoFav = (data) => {
     dispatch({ type: 'ADD_TO_FAV', payload: { name: data.name, id: data.id, coord: data.coord } });
+    dispatch({ type: 'SELECT_FAV_CITY', payload: data });
     setWeatherData(null);
   }
 

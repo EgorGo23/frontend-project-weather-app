@@ -7,6 +7,7 @@ const initialState = {
   searchText: '',
   searchErrorFetch: false,
   citiesSearch: [],
+  lastAddedItemToFav: null,
   favCities: [
     { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
     { name: 'Berlin', id: 2950158, coord: { lon: 10.45, lat: 54.03 } },
@@ -46,23 +47,41 @@ const StateProvider = ({ children }) => {
           searchErrorFetch: payload,
         };
       case 'ADD_TO_FAV':
-        return {
-          ...state,
-          favCities: [
-            payload,
-            ...state.favCities,
-          ],
-        };
+        const { favCities } = state;
+        const checkInd = favCities.findIndex(({ name }) => name === payload.name);
+        if (checkInd === -1) {
+          return {
+            ...state,
+            favCities: [
+              payload,
+              ...favCities,
+            ]
+          }
+        } else {
+          const { favCities } = state;
+          return {
+            ...state,
+            favCities: [
+              favCities[checkInd],
+              ...favCities.filter((city) => city.name !== payload.name),
+            ],
+          }
+        }
       case 'SELECT_FAV_CITY':
         return {
           ...state,
           selectedFavCity: payload,
         };
+      case 'REMOVE_FAV_CITY':      
+        return {
+          ...state,
+          favCities: state.favCities.filter((city) => city.id !== payload),
+        };
       default:
         throw new Error();
     }
   }, initialState);
-
+  
   return <Provider value={{ globalState, dispatch }}>{children}</Provider>;
 };
 

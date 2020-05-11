@@ -7,8 +7,8 @@ import Arrow from './Arrow';
 
 const Slider = () => {
   const { globalState } = useContext(store);
-  const { favCities } = globalState;
-
+  const { favCities, selectedFavCity } = globalState;
+  
   const initialState = {
     activeSlides: {
       first: 0,
@@ -22,34 +22,60 @@ const Slider = () => {
   const [state, setState] = useState(initialState);
 
   const { activeSlides, translate, transition, slides } = state;
-
+  
   useEffect(() => {
-    const { first, second, third } = activeSlides;
-    let prev = null;
-    let middle = [];
-    let next = null;
-
-    if (activeSlides.first === 0) {
-      prev = favCities.slice(favCities.length - 1);
-    } else {
-      prev = favCities.slice(activeSlides.first - 1, activeSlides.first);
+    if (favCities.length === 0) {
+      setState({
+        ...state,
+        slides: []
+      })
     }
 
-    if (activeSlides.third === favCities.length - 1) {
-      next = favCities.slice(0, 1);
+    if (favCities.length < 3) {
+      if (favCities.length === 2) {
+        setState({
+          ...state,
+          slides: [
+            favCities[0],
+            favCities[1],
+          ]
+        })
+      } else if (favCities.length === 1) {
+        setState({
+          ...state,
+          slides: [
+            favCities[0]
+          ]
+        })
+      }
     } else {
-      next = favCities.slice(activeSlides.third + 1, activeSlides.third + 2);
+      const { first, second, third } = activeSlides;
+      let prev = null;
+      let middle = [];
+      let next = null;
+
+      if (activeSlides.first === 0) {
+        prev = favCities.slice(favCities.length - 1);
+      } else {
+        prev = favCities.slice(activeSlides.first - 1, activeSlides.first);
+      }
+  
+      if (activeSlides.third === favCities.length - 1) {
+        next = favCities.slice(0, 1);
+      } else {
+        next = favCities.slice(activeSlides.third + 1, activeSlides.third + 2);
+      }
+  
+      middle.push(favCities[first], favCities[second], favCities[third]);
+      
+      setState({
+        ...state,
+        slides: prev.concat(middle).concat(next),
+      })
     }
-
-    middle.push(favCities[first], favCities[second], favCities[third]);
-
-    setState({
-      ...state,
-      slides: prev.concat(middle).concat(next),
-    })
-
-    return () => setState(initialState);
-  }, [activeSlides]);
+    
+    console.log(activeSlides)
+  }, [activeSlides, favCities]);
 
   const goPrevSlide = () => {
     if (activeSlides.first === 0) {

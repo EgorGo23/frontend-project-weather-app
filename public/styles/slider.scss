@@ -41,8 +41,9 @@
     align-items: center;
     height: 8.5rem;
     width: 9rem;
+    position: relative;
 
-    & > img {
+    & > .slide__icon-city {
       margin-top: 1.6rem;
     }
 
@@ -54,9 +55,22 @@
       word-wrap: break-word;
     }
 
-    .slide__icon {
+    .slide__icon-city {
       height: 4rem;
       width: 4rem;
+    }
+
+    .slide__icon-remove {
+      position: absolute;
+      width: 1.25rem;
+      height: 1.25rem;
+      left: 7.2rem;
+      top: 0.4rem;
+      transition: all 0.2s;
+      
+      svg:hover {
+        fill: rgb(190, 32, 50);
+      }
     }
   }
 }
