@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { createContext, useReducer } from 'react';
+import { element } from 'prop-types';
 
 const initialState = {
   theme: 'light',
@@ -7,7 +8,6 @@ const initialState = {
   searchText: '',
   searchErrorFetch: false,
   citiesSearch: [],
-  lastAddedItemToFav: null,
   favCities: [
     { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
     { name: 'Berlin', id: 2950158, coord: { lon: 10.45, lat: 54.03 } },
@@ -15,7 +15,7 @@ const initialState = {
     { name: 'London', id: 2643743, coord: { lon: -0.13, lat: 51.51 } },
     { name: 'Hong Kong', id: 1819729, coord: { lon: 114.16, lat: 22.29 } },
     { name: 'Tokyo', id: 1850147, coord: { lon: 139.69, lat: 35.69 } },
-    { name: 'Beijing', id: 1816670, coord: { lon: 116.4, lat: 39.91 } },
+    { name: 'Beijing', id: 1816670, coord: { lon: 116.4, lat: 39.91 } }
   ],
   selectedFavCity: { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
 };
@@ -72,10 +72,10 @@ const StateProvider = ({ children }) => {
           ...state,
           selectedFavCity: payload,
         };
-      case 'REMOVE_FAV_CITY':      
+      case 'REMOVE_FAV_CITY':   
         return {
           ...state,
-          favCities: state.favCities.filter((city) => city.id !== payload),
+          favCities: state.favCities.filter((element) => element.id !== payload.id),
         };
       default:
         throw new Error();

@@ -66,6 +66,7 @@ module.exports = {
       '/api': 'http://localhost:4300/',
     },
   },
+  devtool: isDev ? 'source-map' : '',
   module: {
     rules: [
       {

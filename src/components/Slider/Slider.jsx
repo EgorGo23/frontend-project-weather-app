@@ -1,191 +1,145 @@
 import React, {
-  useState, useContext, useEffect,
+    useState, useContext, useEffect,
 } from 'react';
 import { store } from '../../store';
 import SliderContent from './SliderContent';
 import Arrow from './Arrow';
+import circularLinkedList from './circularLinkedList';
+import { elem } from 'prop-types';
 
 const Slider = () => {
-  const { globalState } = useContext(store);
-  const { favCities, selectedFavCity } = globalState;
-  
-  const initialState = {
-    activeSlides: {
-      first: 0,
-      second: 1,
-      third: 2,
-    },
-    translate: 0,
-    transition: 0.45,
-    slides: [],
-  }
-  const [state, setState] = useState(initialState);
+    const { globalState, dispatch } = useContext(store);
+    const { favCities } = globalState;
 
-  const { activeSlides, translate, transition, slides } = state;
-  
-  useEffect(() => {
-    if (favCities.length === 0) {
-      setState({
-        ...state,
-        slides: []
-      })
+    const favCLL = new circularLinkedList();
+    favCities.map((element) => favCLL.append(element));
+
+    const initialState = {
+        activeSlides: {
+            first: 0,
+            second: 1,
+            third: 2,
+        },
+        slides: [],
+        cities: favCLL,
     }
 
-    if (favCities.length < 3) {
-      if (favCities.length === 2) {
-        setState({
-          ...state,
-          slides: [
-            favCities[0],
-            favCities[1],
-          ]
-        })
-      } else if (favCities.length === 1) {
-        setState({
-          ...state,
-          slides: [
-            favCities[0]
-          ]
-        })
-      }
-    } else {
-      const { first, second, third } = activeSlides;
-      let prev = null;
-      let middle = [];
-      let next = null;
+    const [state, setState] = useState(initialState);
 
-      if (activeSlides.first === 0) {
-        prev = favCities.slice(favCities.length - 1);
-      } else {
-        prev = favCities.slice(activeSlides.first - 1, activeSlides.first);
-      }
-  
-      if (activeSlides.third === favCities.length - 1) {
-        next = favCities.slice(0, 1);
-      } else {
-        next = favCities.slice(activeSlides.third + 1, activeSlides.third + 2);
-      }
-  
-      middle.push(favCities[first], favCities[second], favCities[third]);
-      
-      setState({
-        ...state,
-        slides: prev.concat(middle).concat(next),
-      })
-    }
+    const { activeSlides, cities, slides } = state;
+
+    useEffect(() => {
+        const cLL = new circularLinkedList();
+
+        favCities.map((element) => cLL.append(element));
+
+        setState({
+            ...state,
+            cities: cLL,
+        })
+    }, [favCities]);
+
+    useEffect(() => {
+        if (favCities.length > 2) {
+            const { first, second, third } = activeSlides;
+            
+            const firstSlide = cities.getElementAt(first).element;
+            const secondSlide = cities.getElementAt(second).element;
+            const thirdSlide = cities.getElementAt(third).element;
+            console.log(activeSlides);
+
+
+            let newSlides = [];
+            newSlides.push(firstSlide, secondSlide, thirdSlide);
+
+
+            setState({
+                ...state,
+                slides: newSlides,
+            })
+        } else {
+            setState({
+                ...state,
+                slides: favCities,
+            })
+        }
+    }, [cities, activeSlides])
     
-    console.log(activeSlides)
-  }, [activeSlides, favCities]);
+    const removeItem = (event, data) => {
+        event.stopPropagation();
+    
+        dispatch({ type: 'REMOVE_FAV_CITY', payload: data });
+        
+        if (cities.indexOf(data) === cities.size() - 1) {
+            setState({
+                ...state,
+                activeSlides: {
+                    first: activeSlides.first - 1,
+                    second: activeSlides.second,
+                    third: activeSlides.third,
+                }
+            })
+        }
 
-  const goPrevSlide = () => {
-    if (activeSlides.first === 0) {
-      setState({
-        ...state,
-        activeSlides: {
-          first: favCities.length - 1,
-          second: activeSlides.second - 1,
-          third: activeSlides.third - 1,
-        }
-      });
-    } else if (activeSlides.second === 0) {
-      setState({
-        ...state,
-        activeSlides: {
-          first: activeSlides.first - 1,
-          second: favCities.length - 1,
-          third: activeSlides.third - 1,
-        }
-      });
-    } else if (activeSlides.third === 0) {
-      setState({
-        ...state,
-        activeSlides: {
-          first: activeSlides.first - 1,
-          second: activeSlides.second - 1,
-          third: favCities.length - 1,
-        }
-      });
-    } else {
-      setState({
-        ...state,
-        activeSlides: {
-          first: activeSlides.first - 1,
-          second: activeSlides.second - 1,
-          third: activeSlides.third - 1,
-        }
-      });
+        //const indexRemovedItem = favCities.findIndex((city) => city.id === data.id);
+    
+        // if (favCities[indexRemovedItem + 1]) {
+        //   console.log('1');
+        //   dispatch({ type: 'SELECT_FAV_CITY', payload: favCities[indexRemovedItem + 1] });
+        // } else if (favCities.length === 1) {
+        //   console.log('2');
+        //   dispatch({ type: 'SELECT_FAV_CITY', payload: null });
+        // } else {
+        //   dispatch({ type: 'SELECT_FAV_CITY', payload: favCities[0] });
+        // }
     }
-  }
 
-  const goNextSlide = () => {
-    if (activeSlides.third === favCities.length - 1) {
-      setState({
-        ...state,
-        activeSlides: {
-          first: activeSlides.first + 1,
-          second: activeSlides.second + 1,
-          third: 0,
-        }
-      });
-    } else if (activeSlides.second === favCities.length - 1) {
-      setState({
-        ...state,
-        activeSlides: {
-          first: activeSlides.first + 1,
-          second: 0,
-          third: activeSlides.third + 1,
-        }
-      })
-    } else if (activeSlides.first === favCities.length - 1) {
-      setState({
-        ...state,
-        activeSlides: {
-          first: 0,
-          second: activeSlides.second + 1,
-          third: activeSlides.third + 1,
-        }
-      })
-    } else {
-      setState({
-        ...state,
-        activeSlides: {
-          first: activeSlides.first + 1,
-          second: activeSlides.second + 1,
-          third: activeSlides.third + 1,
-        }
-      })
+    const goPrevSlide = () => {
+        const { first, second, third } = activeSlides;
+
+        setState({
+            ...state,
+            activeSlides: {
+                first: cities.indexOf(cities.getElementAt(first).prev.element),
+                second: cities.indexOf(cities.getElementAt(second).prev.element),
+                third: cities.indexOf(cities.getElementAt(third).prev.element),
+            },
+        })
     }
-  }
 
-  return (
-    <div className="slider">
-      <Arrow direction="prev" handleClick={goPrevSlide} />
+    const goNextSlide = () => {
+        const { first, second, third } = activeSlides;
 
-      <div className="slider-wrapper">
-        <SliderContent
-          translate={translate}
-          transition={transition}
-          slides={slides}
-        />
-      </div>
+        setState({
+            ...state,
+            activeSlides: {
+                first: cities.indexOf(cities.getElementAt(first).next.element),
+                second: cities.indexOf(cities.getElementAt(second).next.element),
+                third: cities.indexOf(cities.getElementAt(third).next.element),
+            },
+        })
+    }
 
-      <Arrow direction="next" handleClick={goNextSlide} />
-    </div>
-  );
+    return (
+        <div className="slider">
+
+            <div className="slider-wrapper">
+                <SliderContent
+                    slides={slides}
+                    removeItem={removeItem}
+                />
+            </div>
+            {
+                favCities.length > 3 && (
+                    <>
+                        <Arrow direction="prev" handleClick={goPrevSlide} />
+                        <Arrow direction="next" handleClick={goNextSlide} />
+                    </>
+                )
+            }
+        </div>
+    );
 };
 
 
 export default Slider;
-
-// const autoPlayref = useRef();
-// useEffect(() => {
-//   autoPlayref.current = nextSlide;
-// });
-
-// useEffect(() => {
-//   const play = () => {
-//     autoPlayref.current();
-//   };
-//   const interval = setInterval(play, 2000);
-//   return () => clearInterval(interval);
-// }, []);
