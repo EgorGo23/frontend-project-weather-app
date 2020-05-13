@@ -213,10 +213,10 @@ class circularLinkedList {
     toArray = function () {
         let arr = [],
             current = this.head;
-
+        
         //Keep track of head
         const temp = this.head.element
-
+        
         while (current) {
             //Break if first element detected
             if (temp === current.next.element) {
@@ -251,5 +251,6 @@ class circularLinkedList {
         return this.tail;
     }
 }
+
 
 export default circularLinkedList;

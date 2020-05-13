@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React, { createContext, useReducer } from 'react';
-import { element } from 'prop-types';
 
 const initialState = {
   theme: 'light',
@@ -75,7 +74,7 @@ const StateProvider = ({ children }) => {
       case 'REMOVE_FAV_CITY':   
         return {
           ...state,
-          favCities: state.favCities.filter((element) => element.id !== payload.id),
+          favCities: payload,
         };
       default:
         throw new Error();

@@ -3,26 +3,13 @@ import PropTypes from 'prop-types';
 import Slide from './Slide';
 import { store } from '../../store';
 
-const SliderContent = ({ slides, removeItem }) => {
-  const styles = {
-    height: '8.5rem',
-    display: 'flex',
-    width: '9999px',
-  };
+const SliderContent = ({ slides, selectItem, removeItem }) => {
 
-  const { globalState, dispatch } = useContext(store);
-  const { selectedFavCity, favCities } = globalState;
-
-  const selectItem = (data) => {
-    dispatch({ type: 'SELECT_FAV_CITY', payload: data });
-  }
-
+  const { globalState } = useContext(store);
+  const { selectedFavCity } = globalState;
   
   return (
-    <div
-      className="slider__content"
-      style={styles}
-    >
+    <div className="slider__content">
       {slides.map((data) => (<Slide
         key={data.id}
         isActive={data.id === selectedFavCity.id ? true : false}
