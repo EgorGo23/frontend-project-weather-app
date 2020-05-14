@@ -211,6 +211,10 @@ class circularLinkedList {
 
     //Convert list to array
     toArray = function () {
+        if (this.isEmpty()) {
+            return [];
+        }
+
         let arr = [],
             current = this.head;
         
@@ -251,6 +255,5 @@ class circularLinkedList {
         return this.tail;
     }
 }
-
 
 export default circularLinkedList;

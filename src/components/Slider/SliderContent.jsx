@@ -21,5 +21,4 @@ const SliderContent = ({ slides, selectItem, removeItem }) => {
   );
 };
 
-
 export default SliderContent;
