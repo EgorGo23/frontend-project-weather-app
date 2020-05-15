@@ -6,11 +6,6 @@ import SliderContent from './SliderContent';
 import Arrow from './Arrow';
 import circularLinkedList from './circularLinkedList';
 
-/* Проверка на присутствия head элемента в текущем списке слайдов.
-Если присутствует, то функция возвращает индекс слайда, иначе -1.
-*/
-const checkPostionHead = (cities, slides) => slides.findIndex((element) => element === cities.getHead().element);
-
 const Slider = () => {
     const { globalState, dispatch } = useContext(store);
     const { favCities } = globalState;
@@ -31,7 +26,7 @@ const Slider = () => {
             : [...favCitiesCllView.toArray()],
         cities: favCitiesCllView,
     }
-    
+
     const [state, setState] = useState(initialState);
 
     const { activeSlides, cities, slides } = state;
@@ -43,9 +38,17 @@ const Slider = () => {
         const cLL = new circularLinkedList();
 
         favCities.map((element) => cLL.append(element));
-
+        
+        const { first, second, third } = activeSlides;
+        
         setState({
             ...state,
+            slides: cLL.size() > 3 ? [
+                cLL.getElementAt(first).element,
+                cLL.getElementAt(second).element,
+                cLL.getElementAt(third).element,
+            ]
+            : [...cLL.toArray()],
             cities: cLL,
         })
     }, [favCities]);
@@ -85,7 +88,7 @@ const Slider = () => {
             ]
         })
     }
-    
+
     const selectItem = (data) => {
         dispatch({ type: 'SELECT_FAV_CITY', payload: data });
     }
@@ -97,7 +100,10 @@ const Slider = () => {
         const removedElement = cities.getElementAt(cities.indexOf(data));
         dispatch({ type: 'SELECT_FAV_CITY', payload: removedElement.next.element })
 
-        const positionHead = checkPostionHead(cities, slides);
+
+        /* Проверка на присутствия head элемента в текущем списке слайдов.
+        Если присутствует, то функция возвращает индекс слайда, иначе -1.*/
+        const positionHead = slides.findIndex((element) => element === cities.getHead().element);
 
         cities.delete(data);
         cities.isEmpty() ?

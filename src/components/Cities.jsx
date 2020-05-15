@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { store } from '../store';
 
 const Cities = ({
-  cities, increaseCounter, totalNumCitiesForQuery,
+  cities, increaseCounter, totalNumCitiesForQuery, showMoreHook
 }) => {
   const { dispatch } = useContext(store);
-
+  
   const handleClickShowMore = ({ target }) => {
     if (target.classList.contains('cities__show-more')) {
       /* При нажатии на кнопку 'Show more':
@@ -16,6 +16,7 @@ const Cities = ({
       (totalNumCitiesForQuery - cities.length) */
       if (totalNumCitiesForQuery - cities.length < 10) {
         increaseCounter(totalNumCitiesForQuery - cities.length);
+        
       } else {
         increaseCounter(10);
       }

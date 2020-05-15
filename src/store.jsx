@@ -47,23 +47,24 @@ const StateProvider = ({ children }) => {
         };
       case 'ADD_TO_FAV':
         const { favCities } = state;
-        const checkInd = favCities.findIndex(({ name }) => name === payload.name);
+        const checkInd = favCities.findIndex(({ id }) => id === payload.id);
         if (checkInd === -1) {
           return {
             ...state,
             favCities: [
               payload,
               ...favCities,
-            ]
+            ],
+            selectedFavCity: payload
           }
         } else {
-          const { favCities } = state;
           return {
             ...state,
             favCities: [
               favCities[checkInd],
-              ...favCities.filter((city) => city.name !== payload.name),
+              ...favCities.filter((city) => city.id !== payload.id),
             ],
+            selectedFavCity: payload,
           }
         }
       case 'SELECT_FAV_CITY':

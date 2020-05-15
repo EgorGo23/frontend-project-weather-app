@@ -10,6 +10,9 @@ const CitySearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(false);
 
+  // Отслеживание нажатия кнопки show more
+  const [isShow, setIsShow] = useState(false);
+
   /* В numCitiesExpectFromServer хранится число городов, которое необходимо получить 
   от сервера. Изначально оно равняется 10. Но с помощью функции increaseCityCounter
   (передается в компонент Cities) оно может быть увеличено */
@@ -102,7 +105,7 @@ const CitySearch = () => {
       <div className="city-search-header">
         <h3 className="city-search-title">SEARCH CITIES</h3>
         <form onSubmit={(event) => handleSubmit(event)} className="search-city-input-wrapper">
-          <input className="search-city-input" onFocus={() => setIsPrompt(true)} value={searchText} onChange={handleChange} placeholder="search city" />
+          <input className="search-city-input" onFocus={() => setIsPrompt(true)} value={searchText} onBlur={() => setIsPrompt(false)} onChange={handleChange} placeholder="search city" />
           <button type="submit" className="search-city-btn">
             <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 451 451">
               <path
@@ -113,7 +116,7 @@ const CitySearch = () => {
           </button>
         </form>
         {
-          isPrompt && !idSearchedCity && !searchErrorFetch && !isErrorUser
+          isPrompt && !idSearchedCity && !searchErrorFetch && !isErrorUser && !searchText
           && (
             <span className="city-search-prompt">Enter the city name in English</span>
           )
@@ -165,7 +168,7 @@ const CitySearch = () => {
         }
       </div>
       <div className="city-search-body">
-        <CityWeatherCard />
+        <CityWeatherCard  />
       </div>
       
     </div>

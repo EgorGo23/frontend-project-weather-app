@@ -8,7 +8,7 @@ const CityWeatherCard = () => {
   const [weatherData, setWeatherData] = useState(null);
 
   const { globalState, dispatch } = useContext(store);
-  const { idSearchedCity } = globalState;
+  const { idSearchedCity, searchText } = globalState;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +36,6 @@ const CityWeatherCard = () => {
 
   const addCitytoFav = (data) => {
     dispatch({ type: 'ADD_TO_FAV', payload: { name: data.name, id: data.id, coord: data.coord } });
-    dispatch({ type: 'SELECT_FAV_CITY', payload: data });
     setWeatherData(null);
   }
 
@@ -62,7 +61,7 @@ const CityWeatherCard = () => {
         )
       }
       {
-        weatherData
+        (weatherData && searchText === '')
         && (
           <div className={cn({
             'weather-card style-city': true,
