@@ -76,7 +76,7 @@ const CityWeatherCard = () => {
             </div>
             <div className="weather-card__temp">
               <span>
-                {Math.ceil(weatherData.main.temp)}
+                {Math.round(weatherData.main.temp)}
                 °
               </span>
               <span>{weatherData.weatherText}</span>
@@ -86,14 +86,14 @@ const CityWeatherCard = () => {
                 <svg viewBox="188.5 817 21 11">
                   <path fill="#00ff9b" d="M209.5 817.5h-21L199 828z" data-name="Min Arrow" />
                 </svg>
-                <span>{Math.ceil(weatherData.main.temp_min)}</span>
+                <span>{Math.round(weatherData.main.temp_min)}</span>
                 <span>Min</span>
               </div>
               <div className="max__container">
                 <svg viewBox="449.5 820 21 11">
                   <path fill="red" d="M449.5 830.5h21L460 820z" data-name="Max Arrow" />
                 </svg>
-                <span>{Math.ceil(weatherData.main.temp_max)}</span>
+                <span>{Math.round(weatherData.main.temp_max)}</span>
                 <span>Max</span>
               </div>
             </div>

@@ -9,10 +9,10 @@ const App = () => (
     <Header />
     <main className="main-container__bg">
       <div className="main-card">
-        <CitySearch />
+        {/* <CitySearch /> */}
         <div className="weather-view">
-          <Slider />
-          {/* <DailyCard /> */}
+          {/* <Slider /> */}
+          <DailyCard />
           
         </div>
       </div>

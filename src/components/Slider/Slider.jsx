@@ -4,7 +4,7 @@ import React, {
 import { store } from '../../store';
 import SliderContent from './SliderContent';
 import Arrow from './Arrow';
-import circularLinkedList from './circularLinkedList';
+import circularLinkedList from '../../circularLinkedList';
 
 const Slider = () => {
     const { globalState, dispatch } = useContext(store);

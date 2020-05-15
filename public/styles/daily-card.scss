@@ -1,13 +1,12 @@
 .city-weather-forecast-wrapper {
-    width: 500px;
-    height: 400px;
+    width: 594px;
+    height: 390px;
     margin: 0 auto;
     padding: 1rem 1rem;
     border: 1px solid #dfe1e5;
     border-radius: 8px;
     display: flex;
     flex-flow: column;
-    justify-content: space-around;
     margin-top: 1rem;
 
     .selected-city-current-data__container {
@@ -35,13 +34,18 @@
           .city-temp {
             display: flex;
             align-items: center;
-          }
 
-          .city-temp > span {
-            margin-left: 1rem;
-            color: rgb(33, 33, 33);
-            font-size: 64px;
-            font-style: normal;
+            & > img {
+              width: 100px;
+              height: 100px;
+            }
+
+            & > span {
+              margin-left: 1rem;
+              color: rgb(33, 33, 33);
+              font-size: 50px;
+              font-style: normal;
+            }
           }
 
           .city-wind-hum-pres {
@@ -60,19 +64,18 @@
       }
     }
     
-    .city-search-forecast__container {
-      height: 60%;
+    .week-forecast__container {
+      padding: 1.5rem 0 0 0;
       width: 100%;
       display: flex;
       justify-content: flex-start;
-      flex: 1 1;
       align-items: center;
       text-align: center;
     
       .weather-forecast-day {
         cursor: pointer;
-        width: 100px;
-        height: 130px;
+        width: 80px;
+        height: 110px;
         display: flex;
         flex-flow: column;
         align-items: center;
@@ -86,14 +89,20 @@
 
         .forecast-day {
           font-family: 'Roboto', 'sans-serif';
-          font-size: large;
+          font-size: medium;
           font-weight: 400;
           line-height: 15px;
           color: #bababa;
         }
 
+        & > img {
+          width: 50px;
+          height: 50px;
+        }
+
         .forecast-max-min {
-          width: 40%;
+          width: 50%;
+          margin-left: 5px;
           text-align: center;
           font-weight: normal;
           line-height: 15px;

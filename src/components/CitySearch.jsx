@@ -10,9 +10,6 @@ const CitySearch = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPrompt, setIsPrompt] = useState(false);
 
-  // Отслеживание нажатия кнопки show more
-  const [isShow, setIsShow] = useState(false);
-
   /* В numCitiesExpectFromServer хранится число городов, которое необходимо получить 
   от сервера. Изначально оно равняется 10. Но с помощью функции increaseCityCounter
   (передается в компонент Cities) оно может быть увеличено */

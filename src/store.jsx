@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { createContext, useReducer } from 'react';
+import getWeekDay from './getWeekDay';
 
 const initialState = {
   theme: 'light',
@@ -17,6 +18,7 @@ const initialState = {
     { name: 'Beijing', id: 1816670, coord: { lon: 116.4, lat: 39.91 } }
   ],
   selectedFavCity: { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
+  selectedWeatherDay: getWeekDay(new Date(), 'short'),
 };
 
 const store = createContext(initialState);
@@ -77,6 +79,12 @@ const StateProvider = ({ children }) => {
           ...state,
           favCities: payload,
         };
+      case 'SELECT_WEATHER_DAY':
+        console.log(payload);
+        return {
+          ...state,
+          selectedWeatherDay: payload,
+        }
       default:
         throw new Error();
     }

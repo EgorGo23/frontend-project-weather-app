@@ -1,31 +1,64 @@
 import React, { useEffect, useContext, useState } from 'react';
-import getWeatherData from '../getCurrentWeatherData';
+import getCurrentWeatherData from '../getCurrentWeatherData';
 import { store } from '../store';
+import getWeekDay from '../getWeekDay';
+
 
 const DailyСard = () => {
+    const getFormattedDate = () => (
+        `${new Date().getHours() < 10 ?
+            `0${new Date().getHours()}` : new Date().getHours()}:${new Date().getMinutes() < 10 ?
+                `0${new Date().getMinutes()}` : new Date().getMinutes()}`
+    );
+
+    const getDataToday = (item) => (
+        {
+            temp_max: item.tempMain.max,
+            temp_min: item.tempMain.min,
+            temp: item.tempMain.temp,
+            pressure: item.pressure,
+            humidity: item.humidity,
+            wind: item.wind,
+            description: item.weatherText,
+            svg: item.svg,
+            clouds: item.clouds
+        }
+    );
+
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
-    const [weatherData, setWeatherData] = useState({
-        name: '',
+    const [timer, setTimer] = useState(getFormattedDate());
+    const [state, setState] = useState({
+        current: null,
         list: [],
+        day: {
+            shortName: getWeekDay(new Date(), 'short'),
+            longName: getWeekDay(new Date(), 'long'),
+        },
     });
 
     const { globalState, dispatch } = useContext(store);
-    const { idFavCity } = globalState;
+    const { selectedFavCity } = globalState;
+    
+    const { current, list, day } = state;
 
     useEffect(() => {
+        const { coord } = selectedFavCity;
+
         const fetchData = async () => {
             setIsError(false);
             setIsLoading(true);
-            
+
             try {
-                const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=55.76&lon=37.61&exclude=current,minutely,hourly&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric`);
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${coord.lat}&lon=${coord.lon}&exclude=current,minutely,hourly&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric`);
                 const body = await response.json();
-                
                 console.log(body.daily);
-                setWeatherData({
-                    name: body.city.name,
-                    list: body.list,
+                setState({
+                    ...state,
+                    current: getDataToday(getCurrentWeatherData(body.daily[0])),
+                    list: [
+                        ...body.daily.slice(0, 7).map((element) => getDataToday(getCurrentWeatherData(element)))
+                    ]
                 });
             } catch (error) {
                 setIsError(true);
@@ -35,80 +68,86 @@ const DailyСard = () => {
         };
 
         fetchData();
-    }, [idFavCity]);
-    coord:
-lat: 55.76
-lon: 37.61
-    // console.log(weatherData);
+    }, [selectedFavCity]);
+    
+    // useEffect(() => {
+    //     const timerID = setInterval(
+    //         () => tick(), 
+    //         1000
+    //     );
+    //     return () => clearInterval(timerID);
+    // }, [timer])
 
-    const getDataToday = (list) => {
-        
+    const tick = () => setTimer(getFormattedDate());
+    
+    const selectDay = (name) => {
+        dispatch({ type: 'SELECT_WEATHER_DAY', payload: name });
     }
 
-    return (
-        <div className="city-weather-forecast-wrapper">
-            <div className="selected-city-current-data__container">
-                <div className="selected-city-wrapper">
-                    <span className="city-name">Санкт-Петербург</span>
-                    <span className="city-time">суббота 18:00</span>
-                    <span className="weather-condition">Облачно</span>
-                    <div className="city-weather-data">
-                        <div className="city-temp">
-                            {/* <img className="city-weather-icon" width="60" height="60" src="../../public/icons/animated/cloudy.svg" /> */}
-                            <span className="temp-metric">5°</span>
-                        </div>
-                        <div className="city-wind-hum-pres">
-                            <div>Давление: <span>753</span></div>
-                            <div>Влажность: <span>85%</span></div>
-                            <div>Ветер: <span>7 м/c</span></div>
-                        </div>
+    const renderWeekForecast = (list) => {
+        let days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+        const weekForecast = [];
+        
+        for (let i = 0, today = new Date().getDay(); i < list.length; i++) {
+            weekForecast.push((
+                <div className="weather-forecast-day" key={today} onClick={() => selectDay(today)}>
+                    {console.log(today)}
+                    <span className="forecast-day">{days[today]}</span>
+                    {list[i].svg}
+                    <div className="forecast-max-min">
+                        <span>{`${list[i].temp_max}°`}</span>
+                        <span>{`${list[i].temp_min}°`}</span>
                     </div>
                 </div>
-            </div>
-            <div className="city-search-forecast__container">
-                <div className="weather-forecast-day">
-                    <span className="forecast-day">Sa</span>
-                    <img className="city-weather-icon" width="50" height="50" src="../../public/icons/animated/day.svg" />
-                    <div className="forecast-max-min">
-                        <span>6°</span>
-                        <span>4°</span>
-                    </div>
+            ))
+            
+            if (today === 6) {
+                today = 0;
+            } else {
+                today++;
+            }
+        }
 
-                </div>
-                <div className="weather-forecast-day">
-                    <span className="forecast-day">Su</span>
-                    <img className="city-weather-icon" width="50" height="50" src="../../public/icons/animated/cloudy-night-2.svg" />
-                    <div className="forecast-max-min">
-                        <span>6°</span>
-                        <span>4°</span>
+        return weekForecast;
+    }
+    
+    
+
+
+    return (
+        <>
+            {
+                current && (
+                    <div className="city-weather-forecast-wrapper">
+                        <div className="selected-city-current-data__container">
+                            <div className="selected-city-wrapper">
+                                <span className="city-name">{selectedFavCity.name}</span>
+                                <span className="city-time">{`${day.longName} ${timer}`}</span>
+                                <span className="weather-condition">{current.description}</span>
+                                <div className="city-weather-data">
+                                    <div className="city-temp">
+                                        {current.svg}
+                                        <span className="temp-metric">{`${current.temp}°`}</span>
+                                    </div>
+                                    <div className="city-wind-hum-pres">
+                                        <div>Pressure: <span>{current.pressure}</span></div>
+                                        <div>Humidity: <span>{`${current.humidity}%`}</span></div>
+                                        <div>Wind: <span>{`${current.wind} м/c`}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="week-forecast__container">
+                            {
+                                [...renderWeekForecast(list)]
+                            }
+
+
+                        </div>
                     </div>
-                </div>
-                <div className="weather-forecast-day">
-                    <span className="forecast-day">Mo</span>
-                    <img className="city-weather-icon" width="50" height="50" src="../../public/icons/animated/rainy-6.svg" />
-                    <div className="forecast-max-min">
-                        <span>6°</span>
-                        <span>4°</span>
-                    </div>
-                </div>
-                <div className="weather-forecast-day">
-                    <span className="forecast-day">Tu</span>
-                    <img className="city-weather-icon" width="50" height="50" src="../../public/icons/animated/rainy-1.svg" />
-                    <div className="forecast-max-min">
-                        <span>6°</span>
-                        <span>4°</span>
-                    </div>
-                </div>
-                <div className="weather-forecast-day">
-                    <span className="forecast-day">We</span>
-                    <img className="city-weather-icon" width="50" height="50" src="../../public/icons/animated/night.svg" />
-                    <div className="forecast-max-min">
-                        <span>6°</span>
-                        <span>4°</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                )
+            }
+        </>
     )
 }
 

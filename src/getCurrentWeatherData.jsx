@@ -1,17 +1,43 @@
 import React from 'react';
 
 const getCurrentWeatherData = ({
-  weather, main, clouds, name = '', coord, id
+  weather, main = null, clouds, name = '', coord = {}, id = null, temp = null, pressure = null, humidity = null, wind_speed = null,
 }) => {
+  const getTemp = (temp) => {
+    if (isNight) {
+      return temp.night;
+    }
+    if (isMorning) {
+      return temp.morn;
+    }
+    if (isDay) {
+      return temp.day;
+    }
+    if (isEvening) {
+      return temp.eve;
+    }
+  }
   let svg = null;
   const date = new Date();
 
   const weatherText = weather[0].main;
-  const isNight = (date.getHours() > 0 && date.getHours() < 7);
-  const isCloudy = clouds.all !== 0;
+
+  const isNight = (date.getHours() >= 0 && date.getHours() < 7);
+  const isMorning =  (date.getHours() >= 7 && date.getHours() < 12);
+  const isDay = (date.getHours() >= 12 && date.getHours() < 19);
+  const isEvening = (date.getHours() >= 19 && date.getHours() < 24);
+
+
+  const isCloudy = clouds.all ? clouds.all > 15 : clouds > 15;
   const isRainy = (weatherText === 'Rain');
   const isSnow = (weatherText === 'Snow');
-
+  
+  const tempMain = temp ? {
+    min: Math.round(temp.min),
+    max: Math.round(temp.max),
+    temp: Math.round(getTemp(temp)),
+  } : null;
+  
   if (isRainy) {
     svg = (
       <img className="city-weather-icon" alt="icon-weather" width="130" height="130" src="../../public/icons/animated/rainy-6.svg" />
@@ -39,6 +65,10 @@ const getCurrentWeatherData = ({
     svg,
     coord,
     id,
+    pressure: pressure ? Math.round(pressure*0.75006375541921) : null,
+    humidity,
+    tempMain,
+    wind: Math.round(wind_speed),
   };
 };
 
