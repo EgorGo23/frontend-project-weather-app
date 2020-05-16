@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import cn from 'classnames';
-import getCurrentWeatherData from '../getCurrentWeatherData';
+import getWeatherData from '../getWeatherData';
 import { store } from '../store';
 
 const CityWeatherCard = () => {
@@ -8,8 +8,8 @@ const CityWeatherCard = () => {
   const [weatherData, setWeatherData] = useState(null);
 
   const { globalState, dispatch } = useContext(store);
-  const { idSearchedCity, searchText } = globalState;
-
+  const { idSearchedCity, searchText, darkMode } = globalState;
+  console.log(darkMode);
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'SET_SEARCH_ERROR', payload: false });
@@ -18,8 +18,8 @@ const CityWeatherCard = () => {
       try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${idSearchedCity}&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric`);
         const body = await response.json();
-        
-        setWeatherData(getCurrentWeatherData(body));
+        console.log(body);
+        setWeatherData(getWeatherData(body));
       } catch (error) {
         dispatch({ type: 'SET_SEARCH_ERROR', payload: true });
         setWeatherData(null);
@@ -31,11 +31,12 @@ const CityWeatherCard = () => {
     if (idSearchedCity) {
       fetchData();
     }
-  }, [dispatch, idSearchedCity]);
-
+  }, [idSearchedCity]);
+  
 
   const addCitytoFav = (data) => {
     dispatch({ type: 'ADD_TO_FAV', payload: { name: data.name, id: data.id, coord: data.coord } });
+    dispatch({ type: 'ADD_ID_SEARCHED_CITY', payload: null });
     setWeatherData(null);
   }
 

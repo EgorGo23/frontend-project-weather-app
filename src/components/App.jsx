@@ -1,23 +1,30 @@
-import React from 'react';
-import Slider from './Slider/Slider';
+import React, { useContext } from 'react';
 import Header from './Header';
 import CitySearch from './CitySearch';
-import DailyCard from './DailyСard';
+import CitiesInfo from './CitiesInfo';
+import { store } from '../store';
+import cn from 'classnames';
 
-const App = () => (
-  <>
-    <Header />
-    <main className="main-container__bg">
-      <div className="main-card">
-        {/* <CitySearch /> */}
-        <div className="weather-view">
-          {/* <Slider /> */}
-          <DailyCard />
-          
+const App = () => {
+  const { globalState, dispatch } = useContext(store);
+  const { darkMode } = globalState;
+
+  return (
+    <div 
+      className={cn({
+        "app": true, 
+        "app-dark": darkMode,
+      })}
+    >
+      <Header />
+      <main className="main-container__bg">
+        <div className="main-card">
+          <CitySearch />
+          <CitiesInfo />
         </div>
-      </div>
-    </main>
-  </>
-);
+      </main>
+    </div>
+  )
+};
 
 export default App;

@@ -1,12 +1,12 @@
 .forecast-hourly-card {
     height: 162px;
-    width: 600px;
+    width: auto;
     display: flex;
     align-items: center;
     border: 1px solid #dfe1e5;
     border-radius: 8px;
-    position: absolute;
-    bottom: 1rem;
+    margin-top: 1rem;
+
 
 
     .forecast-hourly-card__list {
@@ -28,8 +28,14 @@
                 color: #bababa;
             }
 
+            & > img {
+                width: 50px;
+                height: 50px;
+            }
+
             .forecast-max-min {
-                width: 40%;
+                width: auto;
+                margin-left: 0.3rem;
                 text-align: center;
                 font-weight: normal;
                 line-height: 15px;

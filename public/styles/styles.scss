@@ -1,5 +1,5 @@
 @import './reset.css';
-@import './daily-card.scss';
+@import './weather-forecast.scss';
 @import './hourly-card.scss';
 @import './city-weather-card.scss';
 @import './slider.scss';
@@ -11,38 +11,47 @@ html, body, #root {
   margin: 0;
   min-height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
-
 
 #root {
   width: 100%;
+  min-height: 100vh;
+}
+
+.app {
+  width: 100%;
+  min-width: 1500px;
   min-height: 100vh;
   display: flex;
   align-items: center;
   flex-flow: column;
   transition: background 300ms linear;
   background: linear-gradient(to top, #5ee7df 0%, #66a6ff 100%);
-
-    /****Сustom Scrollbar****/
-  ::-webkit-scrollbar{
-    width:12px;
-  }
-
-  ::-webkit-scrollbar-thumb{
-    border-radius: 5px;
-    background-color: #aaa;
-  }
-
-  ::-webkit-scrollbar-thumb:hover{
-    background-color: #777;
-  }
-
-  ::-webkit-scrollbar-track{
-    border-radius: 5px;
-    background-color: #eee;
-  }
 }
 
+.app-dark {
+  background: linear-gradient(to bottom, #372865, #000000);
+}
+
+/****Сustom Scrollbar****/
+::-webkit-scrollbar{
+  width:12px;
+}
+
+::-webkit-scrollbar-thumb{
+  border-radius: 5px;
+  background-color: #aaa;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background-color: #777;
+}
+
+::-webkit-scrollbar-track{
+  border-radius: 5px;
+  background-color: #eee;
+}
 
 /*
 ================
@@ -64,10 +73,15 @@ html, body, #root {
   animation: .5s ease-in-out slidedown,1s ease-in-out fadein;
 }
 
+.main__header-dark {
+  background-color: #2B244D;
+  color: white;
+}
+
 .hamburger__icon {
-    z-index: 50;
-    height: 2.5rem;
-    width: 2.5rem;
+  z-index: 50;
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
 .logo__icon {
@@ -154,32 +168,6 @@ html, body, #root {
   }
 }
   
-@media screen and (max-width: 500px) {
-  .main__header {
-    flex-flow: column;
-    align-items: center;
-
-    & > * {
-      width: 100%;
-    }
-
-    .logo__icon {
-      justify-content: center;
-    }
-
-    .date__text {
-      line-height: 2rem;
-      margin-top: -0.4rem;
-    }
-
-    .mode-toggle__container {
-      justify-content: center;
-    }
-  }
-}
-
-
-
 /*
 ================
     Body
@@ -197,12 +185,14 @@ html, body, #root {
   .main-card {
     height: 87vh;
     width: 90vw;
+    min-width: 1360px;
     background-color: #fff;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: -4rem;
+    animation: 1s ease-in-out slideup,1.25s ease-in-out fadein;
   }
 }
 
@@ -211,10 +201,9 @@ html, body, #root {
 .city-search-wrapper {
   display: flex;
   flex-flow: column;
-  flex: 1 1;
   height: 100%;
+  width: 40%;
   position: relative;
-  overflow-y: hidden;
 }
 
 .city-search-header {
@@ -232,7 +221,6 @@ html, body, #root {
     word-break: break-all;
     color: #0c1066;
     margin: 3rem 0 2rem 0;
-    animation: .5s ease-in-out slidedown,1s ease-in-out fadein;    
   }
 
   .search-city-input-wrapper {
@@ -241,7 +229,6 @@ html, body, #root {
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    animation: .5s ease-in-out slidedown,1s ease-in-out fadein;
 
     .search-city-input {
       font-family: 'Roboto', sans-serif;
@@ -414,43 +401,21 @@ $color: #ffffff;
     color: #dc3545;
     text-align: center;
   }
+
+  
 }
 
 
-.weather-view {
+.cities-info {
+  width: 60%;
+  min-width: 810px;
   display: flex;
   flex-flow: column;
   align-items: center;
-  flex: 1 1;
   height: 100%;
   position: relative;
-  overflow-y: auto;
+  overflow: auto;
   padding: 1rem 0;
-}
-
-@media screen and (max-width: 900px) {
-  html {
-    overflow: auto;
-  }
-
-  .main-card {
-    height: auto !important;
-    margin-top: -7rem !important;
-    flex-flow: column;
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    .city-search-wrapper {
-      min-height: 26.5rem;
-      width: 100%;
-
-      
-    }
-
-    .weather-view {
-      
-    }
-  }
 }
 
 

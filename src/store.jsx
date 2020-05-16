@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from 'react';
 import getWeekDay from './getWeekDay';
 
 const initialState = {
-  theme: 'light',
+  darkMode: false,
   idSearchedCity: null,
   searchText: '',
   searchErrorFetch: false,
@@ -27,6 +27,11 @@ const { Provider } = store;
 const StateProvider = ({ children }) => {
   const [globalState, dispatch] = useReducer((state, { type, payload }) => {
     switch (type) {
+      case 'ACTIVATE_DARK_MODE':
+        return {
+          ...state,
+          darkMode: !state.darkMode,
+        }
       case 'CHANGE_TEXT':
         return {
           ...state,
@@ -80,7 +85,6 @@ const StateProvider = ({ children }) => {
           favCities: payload,
         };
       case 'SELECT_WEATHER_DAY':
-        console.log(payload);
         return {
           ...state,
           selectedWeatherDay: payload,

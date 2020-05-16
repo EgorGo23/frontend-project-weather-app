@@ -57,9 +57,9 @@ const CitySearch = () => {
     if (searchText.length > 0) {
       fetchData();
     }
-  }, [searchText, dispatch, numCitiesExpectFromServer]);
+  }, [searchText, numCitiesExpectFromServer]);
 
-
+  
   const handleChange = (event) => {
     setIsPrompt(false);
     setIsErrorUser(false);
@@ -92,7 +92,7 @@ const CitySearch = () => {
       dispatch({ type: 'CHANGE_TEXT', payload: '' });
     }
   }
-
+  console.log()
   const increaseCityCounter = (value) => {
     setNumCitiesExpectFromServer(numCitiesExpectFromServer + value);
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const getCurrentWeatherData = ({
-  weather, main = null, clouds, name = '', coord = {}, id = null, temp = null, pressure = null, humidity = null, wind_speed = null,
+const getWeatherData = ({
+  weather, main = null, clouds, name = '', coord = {}, id = null, temp = null, pressure = null, humidity = null, wind_speed = null, dt_txt = null,
 }) => {
   const getTemp = (temp) => {
     if (isNight) {
@@ -19,7 +19,7 @@ const getCurrentWeatherData = ({
   }
   let svg = null;
   const date = new Date();
-
+  
   const weatherText = weather[0].main;
 
   const isNight = (date.getHours() >= 0 && date.getHours() < 7);
@@ -28,7 +28,7 @@ const getCurrentWeatherData = ({
   const isEvening = (date.getHours() >= 19 && date.getHours() < 24);
 
 
-  const isCloudy = clouds.all ? clouds.all > 15 : clouds > 15;
+  const isCloudy = clouds.all ? clouds.all >= 15 : clouds >= 15;
   const isRainy = (weatherText === 'Rain');
   const isSnow = (weatherText === 'Snow');
   
@@ -40,22 +40,22 @@ const getCurrentWeatherData = ({
   
   if (isRainy) {
     svg = (
-      <img className="city-weather-icon" alt="icon-weather" width="130" height="130" src="../../public/icons/animated/rainy-6.svg" />
+      <img className="city-weather-icon" alt="icon-weather" width="110" height="110" src="../../public/icons/animated/rainy-6.svg" />
     );
   } else if (isSnow) {
     svg = (
-      <img className="city-weather-icon" alt="icon-weather" width="130" height="130" src="../../public/icons/animated/snowy-6.svg" />
+      <img className="city-weather-icon" alt="icon-weather" width="110" height="110" src="../../public/icons/animated/snowy-6.svg" />
     );
   } else if (isNight) {
     svg = isCloudy ? (
-      <img className="city-weather-icon" alt="icon-weather" width="130" height="130" src="../../public/icons/animated/cloudy-night-2.svg" />
+      <img className="city-weather-icon" alt="icon-weather" width="110" height="110" src="../../public/icons/animated/cloudy-night-2.svg" />
     )
-      : (<img className="city-weather-icon" alt="icon-weather" width="130" height="130" src="../../public/icons/animated/night.svg" />);
+      : (<img className="city-weather-icon" alt="icon-weather" width="110" height="110" src="../../public/icons/animated/night.svg" />);
   } else if (!isNight) {
     svg = isCloudy ? (
-      <img className="city-weather-icon" alt="icon-weather" width="130" height="130" src="../../public/icons/animated/cloudy-day-2.svg" />
+      <img className="city-weather-icon" alt="icon-weather" width="110" height="110" src="../../public/icons/animated/cloudy-day-2.svg" />
     )
-      : (<img className="city-weather-icon" alt="icon-weather" width="130" height="130" src="../../public/icons/animated/day.svg" />);
+      : (<img className="city-weather-icon" alt="icon-weather" width="110" height="110" src="../../public/icons/animated/day.svg" />);
   }
 
   return {
@@ -69,7 +69,8 @@ const getCurrentWeatherData = ({
     humidity,
     tempMain,
     wind: Math.round(wind_speed),
+    dt_txt,
   };
 };
 
-export default getCurrentWeatherData;
+export default getWeatherData;
