@@ -8,8 +8,8 @@ const CityWeatherCard = () => {
   const [weatherData, setWeatherData] = useState(null);
 
   const { globalState, dispatch } = useContext(store);
-  const { idSearchedCity, searchText, darkMode } = globalState;
-  console.log(darkMode);
+  const { idSearchedCity, searchText } = globalState;
+  
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'SET_SEARCH_ERROR', payload: false });
@@ -18,7 +18,7 @@ const CityWeatherCard = () => {
       try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?id=${idSearchedCity}&appid=af535cef1cfa81c6e432207e2e85c58b&units=metric`);
         const body = await response.json();
-        console.log(body);
+        
         setWeatherData(getWeatherData(body));
       } catch (error) {
         dispatch({ type: 'SET_SEARCH_ERROR', payload: true });
@@ -39,7 +39,7 @@ const CityWeatherCard = () => {
     dispatch({ type: 'ADD_ID_SEARCHED_CITY', payload: null });
     setWeatherData(null);
   }
-
+  
   return (
     <>
       {
@@ -64,44 +64,56 @@ const CityWeatherCard = () => {
       {
         (weatherData && searchText === '')
         && (
-          <div className={cn({
-            'weather-card style-city': true,
-            'style-for-short-name': (weatherData.name.length <= 16),
-          })}
-          >
-            <div className="weather-card__city">
-              <span>{weatherData.name}</span>
+            <div className={cn({
+                "weather-card": true,
+                })}
+            >
+                <div className={cn({
+                    "weather-card__city": true,
+                    "long-name": (weatherData.name.length >= 16),
+                    "small-name": (weatherData.name.length <= 6),
+                })}
+                >
+                    <span>{weatherData.name}</span>
+                </div>
+
+                <div className={cn({
+                    "weather-card__icon": true,
+                    "svg-extra-long-name": weatherData.name.length >= 22,
+                })}
+                
+                >
+                    {weatherData.svg}
+                </div>
+
+                <div className="weather-card__temp">
+                    <span>
+                        {Math.round(weatherData.main.temp)}
+                        °
+                    </span>
+                    <span>{weatherData.weatherText}</span>
+                </div>
+                
+                <div className="weather-card__min-max">
+                    <div className="min__container">
+                        <svg viewBox="188.5 817 21 11">
+                            <path fill="#00ff9b" d="M209.5 817.5h-21L199 828z" data-name="Min Arrow" />
+                        </svg>
+                        <span>{Math.round(weatherData.main.temp_min)}</span>
+                        <span>Min</span>
+                    </div>
+                    <div className="max__container">
+                        <svg viewBox="449.5 820 21 11">
+                            <path fill="red" d="M449.5 830.5h21L460 820z" data-name="Max Arrow" />
+                        </svg>
+                        <span>{Math.round(weatherData.main.temp_max)}</span>
+                        <span>Max</span>
+                    </div>
+                </div>
+                <div className="weather-card__add-city-btn">
+                    <button className="add-city-btn" onClick={() => addCitytoFav(weatherData)}>ADD CITY +</button>
+                </div>
             </div>
-            <div className="weather-card__icon">
-              {weatherData.svg}
-            </div>
-            <div className="weather-card__temp">
-              <span>
-                {Math.round(weatherData.main.temp)}
-                °
-              </span>
-              <span>{weatherData.weatherText}</span>
-            </div>
-            <div className="weather-card__min-max">
-              <div className="min__container">
-                <svg viewBox="188.5 817 21 11">
-                  <path fill="#00ff9b" d="M209.5 817.5h-21L199 828z" data-name="Min Arrow" />
-                </svg>
-                <span>{Math.round(weatherData.main.temp_min)}</span>
-                <span>Min</span>
-              </div>
-              <div className="max__container">
-                <svg viewBox="449.5 820 21 11">
-                  <path fill="red" d="M449.5 830.5h21L460 820z" data-name="Max Arrow" />
-                </svg>
-                <span>{Math.round(weatherData.main.temp_max)}</span>
-                <span>Max</span>
-              </div>
-            </div>
-            <div className="weather-card__add-city-btn">
-              <button className="add-city-btn" onClick={() => addCitytoFav(weatherData)}>ADD CITY +</button>
-            </div>
-          </div>
         )
       }
     </>

@@ -1,60 +1,54 @@
 .forecast-hourly-card {
-    height: 162px;
-    width: auto;
+    max-width: 502px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     border: 1px solid #dfe1e5;
     border-radius: 8px;
-    margin-top: 1rem;
+    margin-top: 2rem;
 
 
-
-    .forecast-hourly-card__list {
+    .forecast-hourly-card__item {
+        width: 100px;
+        height: 130px;
         display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: space-around;
 
-        .forecast-hourly-card__item {
-            width: 100px;
-            height: 130px;
+        .hour__text {
+            font-family: 'Roboto', 'sans-serif';
+            font-size: large;
+            font-weight: 400;
+            line-height: 15px;
+            color: #bababa;
+        }
+
+        & > img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .forecast-max-min {
+            width: auto;
+            margin-left: 0.3rem;
+            text-align: center;
+            font-weight: normal;
+            line-height: 15px;
+            font-size: 16px;
             display: flex;
-            flex-flow: column;
-            align-items: center;
             justify-content: space-around;
-
-            .hour__text {
-                font-family: 'Roboto', 'sans-serif';
-                font-size: large;
-                font-weight: 400;
-                line-height: 15px;
+            align-items: center;
+            
+    
+            & span:first-child {
+                color: #878787;
+            }
+    
+            & span:last-child {
                 color: #bababa;
-            }
-
-            & > img {
-                width: 50px;
-                height: 50px;
-            }
-
-            .forecast-max-min {
-                width: auto;
-                margin-left: 0.3rem;
-                text-align: center;
-                font-weight: normal;
-                line-height: 15px;
-                font-size: 16px;
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-                
-      
-                & span:first-child {
-                  color: #878787;
-                }
-      
-                & span:last-child {
-                  color: #bababa;
-                }
             }
         }
     }
-
-    
 }
+

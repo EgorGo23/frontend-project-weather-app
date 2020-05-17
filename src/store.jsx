@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { createContext, useReducer } from 'react';
 import getWeekDay from './getWeekDay';
 
@@ -19,6 +18,7 @@ const initialState = {
   ],
   selectedFavCity: { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
   selectedWeatherDay: getWeekDay(new Date(), 'short'),
+  hourlyPointForSelectedDay: [],
 };
 
 const store = createContext(initialState);
@@ -88,6 +88,11 @@ const StateProvider = ({ children }) => {
         return {
           ...state,
           selectedWeatherDay: payload,
+        }
+      case 'ADD_HOURLY_WEATHER':
+        return {
+          ...state,
+          hourlyPointForSelectedDay: payload,
         }
       default:
         throw new Error();

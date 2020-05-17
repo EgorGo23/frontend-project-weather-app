@@ -1,10 +1,7 @@
-/* eslint-disable semi */
-/* eslint-disable no-multiple-empty-lines */
-/* eslint-disable no-trailing-spaces */
 import React, { useState, useEffect, useContext } from 'react';
 import Cities from './Cities';
-import CityWeatherCard from './CityWeatherCard';
 import { store } from '../store';
+import CityWeatherCard from './CityWeatherCard';
 
 const CitySearch = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -165,7 +162,7 @@ const CitySearch = () => {
         }
       </div>
       <div className="city-search-body">
-        <CityWeatherCard  />
+        <CityWeatherCard />
       </div>
       
     </div>

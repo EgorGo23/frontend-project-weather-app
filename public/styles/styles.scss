@@ -5,29 +5,34 @@
 @import './slider.scss';
 @import './cities.scss';
 
-html, body, #root {
+
+body {
   font-family: sans-serif;
-  padding: 0;
   margin: 0;
+  padding: 0;
   min-height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-#root {
-  width: 100%;
-  min-height: 100vh;
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .app {
   width: 100%;
-  min-width: 1500px;
-  min-height: 100vh;
+  min-height: 82rem;
+  min-width: 40rem;
+  height: auto;
   display: flex;
   align-items: center;
   flex-flow: column;
   transition: background 300ms linear;
   background: linear-gradient(to top, #5ee7df 0%, #66a6ff 100%);
+}
+
+.big-app {
+  height: 89rem;
 }
 
 .app-dark {
@@ -61,6 +66,7 @@ html, body, #root {
 .main__header {
   background-color: #fff;
   width: 100%;
+  min-width: 40rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -70,6 +76,9 @@ html, body, #root {
   min-height: 4rem;
   user-select: none;
   color: #2B244D; 
+  position: absolute;
+  top: 0;
+  left: 0;
   animation: .5s ease-in-out slidedown,1s ease-in-out fadein;
 }
 
@@ -174,41 +183,38 @@ html, body, #root {
 ================
 */
 
-.main-container__bg {
-  min-height: 100vh;
-  width: 100vw;
+.main__card {
+  height: 73rem;
+  min-width: 40rem;
+  width: 60vw;
+  background-color: #fff;
+  border-radius: 1rem;
   display: flex;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   user-select: none;
-
-  .main-card {
-    height: 87vh;
-    width: 90vw;
-    min-width: 1360px;
-    background-color: #fff;
-    border-radius: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: -4rem;
-    animation: 1s ease-in-out slideup,1.25s ease-in-out fadein;
-  }
+  margin-top: 5rem;
+  animation: 1s ease-in-out slideup,1.25s ease-in-out fadein;
 }
 
+.big-main-card {
+  height: 80rem;
+}
 
 
 .city-search-wrapper {
   display: flex;
   flex-flow: column;
-  height: 100%;
-  width: 40%;
+  align-items: center;
+  height: 26rem;
+  min-width: 100%;
   position: relative;
 }
 
 .city-search-header {
+  height: 55%;
   width: 100%;
-  min-height: 35%;
   display: flex;
   align-items: center;
   flex-flow: column;
@@ -225,7 +231,7 @@ html, body, #root {
 
   .search-city-input-wrapper {
     position: relative;
-    width: 80%;
+    width: 70%;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -292,12 +298,12 @@ html, body, #root {
     font-family: "Roboto", sans-serif;
     font-size: larger;
     margin-top: 1rem;
-    width: 80%;
+    width: 60%;
     border-radius: 0.5rem;
     background-color: #dc3545;
     box-shadow: 0 0 2rem rgba(0,0,255,.2);
     text-align: center;
-    height: 3rem;
+    height: 2.5rem;
     color: white;
     cursor: pointer;
     outline: none;
@@ -389,8 +395,8 @@ $color: #ffffff;
 }
 
 .city-search-body {
+  height: 45%;
   width: 100%;
-  min-height: 65%;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -400,22 +406,57 @@ $color: #ffffff;
     font-size: larger;
     color: #dc3545;
     text-align: center;
-  }
-
-  
+  }  
 }
 
-
 .cities-info {
-  width: 60%;
-  min-width: 810px;
+  width: 100%;
   display: flex;
   flex-flow: column;
   align-items: center;
   height: 100%;
   position: relative;
-  overflow: auto;
-  padding: 1rem 0;
+  padding-bottom: 1rem;
+}
+
+@media screen and (max-width: 705px) {
+  .main__header {
+    flex-flow: column;
+    align-items: center;
+
+    & > * {
+      width: 100%;
+    }
+
+    .logo__icon {
+      justify-content: center;
+    }
+
+    .date__text {
+      line-height: 2rem;
+      margin-top: -0.4rem;
+    }
+
+    .mode-toggle__container {
+      justify-content: center;
+    }
+  }
+
+  .main__card {
+    margin-top: 6rem;
+  }
+}
+
+@media screen and (min-height: 1366px) {
+  .app {
+    height: 89rem;
+  }
+}
+
+@media screen and (max-height: 420px) {
+  .app {
+    height: 87rem;
+  }
 }
 
 
@@ -448,6 +489,14 @@ $color: #ffffff;
   }
 }
 
+@keyframes slideright {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 
 
 

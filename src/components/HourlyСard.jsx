@@ -28,36 +28,33 @@ const HourlyСard = ({ hourlyData }) => {
         }, {});
     }
 
-    const { globalState } = useContext(store);
+    const { globalState, dispatch } = useContext(store);
     const { selectedWeatherDay } = globalState;
     const [fiveDayData, setFiveDayData] = useState([]);
 
     useEffect(() => {
         const hourlyWeather = getData(hourlyData);
-    
+
+        dispatch({ type: 'ADD_HOURLY_WEATHER', payload: hourlyWeather[selectedWeatherDay] });
         setFiveDayData(hourlyWeather[selectedWeatherDay]);
     }, [hourlyData, selectedWeatherDay])
-
-    
 
     return (
         <>
         {
             fiveDayData && (
                 <div className="forecast-hourly-card">
-                    <ul className="forecast-hourly-card__list">
-                        {
-                            fiveDayData.map(({ time, svg, temp }) => (
-                                <li className="forecast-hourly-card__item" key={uniqueId()}>
-                                    <span className="hour__text">{`${time.split(':')[0]}:${time.split(':')[1]}`}</span>
-                                    {svg}
-                                    <div className="forecast-max-min">
-                                        <span>{`${temp}°`}</span>
-                                    </div>
-                                </li>
-                            ))
-                        }
-                    </ul>
+                    {
+                        fiveDayData.map(({ time, svg, temp }) => (
+                            <div className="forecast-hourly-card__item" key={uniqueId()}>
+                                <span className="hour__text">{`${time.split(':')[0]}:${time.split(':')[1]}`}</span>
+                                {svg}
+                                <div className="forecast-max-min">
+                                    <span>{`${temp}°`}</span>
+                                </div>
+                            </div>
+                        ))
+                    } 
                 </div>
             )   
         }

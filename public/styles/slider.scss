@@ -3,7 +3,7 @@
   font-family: 'Roboto', sans-serif;
   height: 8.5rem;
   width: 32rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding: 0 2.5rem;
 
   .slider__arrow {
@@ -34,9 +34,6 @@
   }
 
   .slider__content {
-    height: '8.5rem';
-    display: 'flex';
-    width: '9999px';
 
     .slide {
       cursor: pointer;

@@ -4,22 +4,12 @@ import getWeekDay from '../getWeekDay';
 import getCurrentMonth from '../getCurrentMonth';
 import { store } from '../store';
 import cn from 'classnames';
+import useTimer from './useTimer';
 
 const Header = () => {
   const { globalState, dispatch } = useContext(store);
   const { darkMode } = globalState;
-
-  const [timer, setTimer] = useState(getFormattedDate());
-
-  useEffect(() => {
-    const timerID = setInterval(
-      () => tick(),
-      1000
-    );
-    return () => clearInterval(timerID);
-  }, [timer])
-
-  const tick = () => setTimer(getFormattedDate());
+  const timer = useTimer();
 
   const activateDarkMode = () => {
     dispatch({ type: 'ACTIVATE_DARK_MODE' });

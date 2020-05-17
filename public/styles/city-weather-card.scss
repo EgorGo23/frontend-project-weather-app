@@ -1,67 +1,78 @@
 .weather-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 38rem;
     font-family: "Roboto", sans-serif;
-    width: 18rem;
-    height: 27rem;
     box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
     margin: 0 auto;
-    padding: 2rem 2rem 1rem 2rem;
+    padding: 1rem;
+    margin-top: 1rem;
     background-color: #fff;
     border-radius: 1.75rem;
-    margin-top: 2rem;
+    animation: 1s ease-in-out slideright,1.25s ease-in-out fadein;
+}
+
+.weather-card__city {
     display: flex;
     flex-flow: column;
-    animation: 1s ease-in-out slideup,1.25s ease-in-out fadein;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 1.3rem;
+    line-height: 2rem;
+    text-align: center;
+    height: 3.75rem;
+}
 
-    %weather-card__item {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+.weather-card__temp {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.75rem;
+
+    & > span:first-child {
+        font-size: 2.5rem;
+        line-height: 2.4rem;
     }
 
-    .weather-card__city {
-      font-weight: 300;
-      font-size: 2rem;
-      line-height: 2rem;
-      text-align: center;
-      height: 16%;
-      
-      @extend %weather-card__item;
-    }
-
-    .style-city {
-      height: 10%;
-    }
-
-    .weather-card__icon {
-      height: 30%;
-      @extend %weather-card__item;
-    }
-
-    .weather-card__temp {
-      height: 20%;
-      @extend %weather-card__item;
-      flex-flow: column;
-      justify-content: flex-end;
-
-      & > span:first-child {
-        font-size: 3rem;
-        line-height: 3rem;
-      }
-      & > span:last-child {
-        margin-top: 0.5rem;
-        text-transform: uppercase;
+    & > span:last-child {
         line-height: 1rem;
         letter-spacing: .1rem;
-      }
     }
+}
 
-    .weather-card__min-max {
-      height: 16%;
-      @extend %weather-card__item;
-      justify-content: space-around;
-      align-items: flex-end;
+.long-name {
+    font-size: 1rem;
+    max-width: 10rem;
+    white-space: normal;
+}
 
-      .min__container, .max__container {
+.small-name {
+    margin-left: 1rem;
+}
+
+
+
+.weather-card__icon {
+    margin-left: -1rem;
+}
+
+.svg-extra-long-name {
+    margin-left: -1.5rem;
+}
+
+
+
+.weather-card__min-max {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 6rem;
+    height: 3.75rem;
+
+    .min__container, .max__container {
+        height: 3.75rem;
         display: flex;
         flex-flow: column;
         align-items: center;
@@ -88,51 +99,27 @@
           color: red;
         }
       }
-    }
-    .weather-card__add-city-btn {
-      @extend %weather-card__item;
-      align-items: flex-end;
-      height: 18%;
-      
-      .add-city-btn {
-        font-family: "Roboto", sans-serif;
-        outline: none;
-        border: none;
-        cursor: pointer;
-        border-radius: 2rem;
-        padding: 0.7rem 1.5rem;
-        color: white;
-        background-color: #2b244d;
-        font-size: 0.9rem;
-        margin-bottom: 0.75rem;
-        font-weight: bold;
-        box-shadow: 0 0 10px rgb(25,16,74);
-        transition: all 0.4s;
-      }
-      
-      .add-city-btn:hover {
-        background-color: #31feae;
-        box-shadow: 0 0 25px #11422F;
-      }
-    }
 }
 
 
-.style-for-short-name {
-  .weather-card__city {
-    height: 10%;
-  } 
-
-  .weather-card__temp {
-    height: 20%;
+.weather-card__add-city-btn {
+    .add-city-btn {
+      font-family: "Roboto", sans-serif;
+      outline: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 2rem;
+      padding: 0.7rem 1.5rem;
+      color: white;
+      background-color: #2b244d;
+      font-size: 0.9rem;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgb(25,16,74);
+      transition: all 0.4s;
+    }
+    
+    .add-city-btn:hover {
+      background-color: #31feae;
+      box-shadow: 0 0 25px #11422F;
+    }
   }
-
-  .weather-card__min-max {
-    height: 20%;
-  }
-
-  .weather-card__add-city-btn {
-    height: 20%;
-  }
-}
-

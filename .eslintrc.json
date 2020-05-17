@@ -46,9 +46,9 @@
                 "onMouseUp",
                 "onKeyPress",
                 "onKeyDown",
-                "onKeyUp",
-              ],
-            },
-          ], 
+                "onKeyUp"
+              ]
+            }
+          ] 
     }
 }
