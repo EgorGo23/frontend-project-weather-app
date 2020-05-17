@@ -12,10 +12,14 @@ The server will start automatically and the application will open at `http://loc
 * Favorite cities
 
 ### Examples
+Light theme:
 ![Light theme](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/light.png)
 
+Dark theme:
 ![Dark theme](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/dark.png)
 
-![Your favorite cities are represented in the carousel](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/carousel.png)
+Your favorite cities are represented in the carousel:
+![fav-cities](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/carousel.png)
 
-![The weather is presented in a convenient and informative way](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/weather.png)
+The weather is presented in a convenient and informative way:
+![weather](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/weather.png)
