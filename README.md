@@ -23,5 +23,6 @@ The server will start automatically and the application will open at `http://loc
 ![fav-cities](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/carousel.png)
 
 #### The weather is presented in a convenient and informative way:
-![weather](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/weather.png)
+![weather](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/weather.png)  
+
 ![hourly](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/hourly.png)
