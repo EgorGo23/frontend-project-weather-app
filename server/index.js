@@ -9,7 +9,7 @@ const readFileAsync = promisify(fs.readFile);
 
 const app = express();
 const port = process.env.PORT || 4300;
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 /* Переменна для хранения прочитанных и форматированных данных из базы */
 let uploadedData = null;
