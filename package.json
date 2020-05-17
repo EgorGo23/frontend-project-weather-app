@@ -4,7 +4,10 @@
   "description": "",
   "main": "my.js",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --mode development", 
+    "server": "nodemon server/index.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run dev-server\"",
+    "start": "node server/index.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false webpack -p"
   },
   "proxy": "http://localhost:4300/",
