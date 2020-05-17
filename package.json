@@ -9,7 +9,8 @@
     "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
+    "withServer": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
+    "heroku-postbuild": "webpack -p"
   },
   "proxy": "http://localhost:4300/",
   "keywords": [],
