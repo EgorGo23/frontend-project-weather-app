@@ -5,7 +5,7 @@
   "main": "my.js",
   "scripts": {
     "start": "nodemon server/index.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false webpack -p"
   },
   "proxy": "http://localhost:4300/",
   "keywords": [],
