@@ -1,6 +1,21 @@
-# React-Express Weather App
+# Browser-Weather-App
+Weather application by city. In it you can find out the weather in your favorite city for the next seven days every three hours.
 
-![Light theme]https://github.com/EgorGo23/frontend-project-weather-app/blob/master/light.png
-![Dark theme]https://github.com/EgorGo23/frontend-project-weather-app/blob/master/dark.png
+## Getting Started
+Clone the repository and run `npm install`
+Then run `npm run dev` for a dev server. 
+The server will start automatically and the application will open at `http://localhost:4200/`.
 
+### Highlights
+* Use [OpenWeatherMap](https://openweathermap.org/) API
+* Dark mode
+* Favorite cities
 
+### Examples
+![Light theme](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/light.png)
+
+![Dark theme](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/dark.png)
+
+![Your favorite cities are represented in the carousel](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/carousel.png)
+
+![The weather is presented in a convenient and informative way](https://github.com/EgorGo23/frontend-project-weather-app/blob/master/screenshots/weather.png)
