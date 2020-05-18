@@ -1,4 +1,12 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
+import iconRainy from 'Icons/animated/rainy-6.svg';
+import iconSnowy from 'Icons/animated/snowy-6.svg';
+import iconClodyNight from 'Icons/animated/cloudy-night-2.svg';
+import iconNight from 'Icons/animated/night.svg';
+import iconCloudyDay from 'Icons/animated/cloudy-day-2.svg';
+import iconDay from 'Icons/animated/day.svg';
+
 
 const getWeatherData = ({
   weather, main = null, clouds, name = '', coord = {}, id = null, temp = null, pressure = null, humidity = null, wind_speed = null, dt_txt = null,
@@ -41,22 +49,26 @@ const getWeatherData = ({
 
   if (isRainy) {
     svg = (
-      <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src="../../public/icons/animated/rainy-6.svg" />
+      <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src={iconRainy} />
     );
   } else if (isSnow) {
     svg = (
-      <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src="../../public/icons/animated/snowy-6.svg" />
+      <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src={iconSnowy} />
     );
   } else if (isNight) {
     svg = isCloudy ? (
-      <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src="../../public/icons/animated/cloudy-night-2.svg" />
+      <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src={iconClodyNight} />
     )
-      : (<img className="city-weather-icon" alt="icon-weather" width="60" height="60" src="../../public/icons/animated/night.svg" />);
+      : (
+        <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src={iconNight} />
+      );
   } else if (!isNight) {
     svg = isCloudy ? (
-      <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src="../../public/icons/animated/cloudy-day-2.svg" />
+      <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src={iconCloudyDay} />
     )
-      : (<img className="city-weather-icon" alt="icon-weather" width="60" height="60" src="../../public/icons/animated/day.svg" />);
+      : (
+        <img className="city-weather-icon" alt="icon-weather" width="60" height="60" src={iconDay} />
+      );
   }
 
   return {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "my.js",
   "scripts": {
-    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --mode development", 
+    "dev-server": "cross-env NODE_ENV=development webpack-dev-server --mode development",
     "server": "nodemon server/index.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run dev-server\"",
     "start": "node server/index.js",
