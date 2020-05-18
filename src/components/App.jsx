@@ -10,7 +10,7 @@ const App = () => {
   const { darkMode, hourlyPointForSelectedDay } = globalState;
   
   const [numberPoint, setNumberPoint] = useState(0);
-  
+  console.log('Egor');
   useEffect(() => {
     if (hourlyPointForSelectedDay) {
       setNumberPoint(hourlyPointForSelectedDay.length > 5 ? true : false);
