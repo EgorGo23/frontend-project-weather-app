@@ -124,7 +124,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'public/icons/react.png'),
+          from: path.resolve(__dirname, 'public/react.png'),
           to: path.resolve(__dirname, 'dist'),
         },
       ],
