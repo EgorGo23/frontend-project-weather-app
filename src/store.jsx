@@ -21,7 +21,7 @@ const initialState = {
   hourlyPointForSelectedDay: [],
 };
 
-favCities: JSON.parse(localStorage.getItem('favCities')) || [],
+//favCities: JSON.parse(localStorage.getItem('favCities')) || [],
 
 
 const store = createContext(initialState);
