@@ -62,7 +62,7 @@ module.exports = {
   optimization: optimization(),
   devServer: {
     historyApiFallback: true,
-    port: 4200,
+    port: 4100,
     open: isWindows ? 'chrome' : 'google-chrome',
     proxy: {
       '/api': 'http://localhost:4300/',

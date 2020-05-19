@@ -20,19 +20,25 @@ body::-webkit-scrollbar {
 }
 
 .app {
+  height: 100vh;
   width: 100%;
-  min-height: 82rem;
+  //min-height: 82rem;
   min-width: 40rem;
-  height: auto;
+  //height: auto;
   display: flex;
   align-items: center;
   flex-flow: column;
   transition: background 300ms linear;
   background: linear-gradient(to top, #5ee7df 0%, #66a6ff 100%);
+  padding-bottom: 2rem;
 }
 
-.big-app {
-  height: 89rem;
+.medium-app {
+  height: auto;
+}
+
+.large-app {
+
 }
 
 .app-dark {
@@ -184,7 +190,7 @@ body::-webkit-scrollbar {
 */
 
 .main__card {
-  height: 73rem;
+  //height: 73rem;
   min-width: 40rem;
   width: 60vw;
   background-color: #fff;
@@ -198,10 +204,13 @@ body::-webkit-scrollbar {
   animation: 1s ease-in-out slideup,1.25s ease-in-out fadein;
 }
 
-.big-main-card {
-  height: 80rem;
+.medium-main_card {
+
 }
 
+.large-main_card {
+
+}
 
 .city-search-wrapper {
   display: flex;
@@ -414,7 +423,7 @@ $color: #ffffff;
   display: flex;
   flex-flow: column;
   align-items: center;
-  height: 100%;
+  height: auto;
   position: relative;
   padding-bottom: 1rem;
 }

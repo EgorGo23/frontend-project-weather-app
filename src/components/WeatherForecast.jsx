@@ -1,8 +1,8 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useEffect, useContext, useState } from 'react';
-import { uniqueId } from 'lodash';
+import { uniqueId, isEmpty } from 'lodash';
 import cn from 'classnames';
 import getWeatherData from '../getWeatherData';
-import getFormattedDate from '../getFormattedDate';
 import { store } from '../store';
 import getWeekDay from '../getWeekDay';
 import HourlyCard from './HourlyСard';
@@ -43,15 +43,14 @@ const WeatherForecast = () => {
 
   const { globalState, dispatch } = useContext(store);
   const { favCities, selectedFavCity, selectedWeatherDay } = globalState;
-
   const {
     current, weeklyData, day, hourlyData,
   } = state;
 
   useEffect(() => {
-    const { coord } = selectedFavCity;
-
     const fetchData = async () => {
+      const { coord } = selectedFavCity;
+
       setIsError(false);
       setIsLoading(true);
 
@@ -65,17 +64,16 @@ const WeatherForecast = () => {
           response[0].json(),
           response[1].json(),
         ]);
-        const weeklyData = body[0];
-        const hourlyData = body[1];
 
         setState({
           ...state,
-          current: getDataForWeekly(getWeatherData(weeklyData.daily[0])),
+          current: getDataForWeekly(getWeatherData(body[0].daily[0])),
           weeklyData: [
-            ...weeklyData.daily.slice(0, 7).map((element) => getDataForWeekly(getWeatherData(element))),
+            ...body[0].daily.slice(0, 7)
+              .map((element) => getDataForWeekly(getWeatherData(element))),
           ],
           hourlyData: [
-            ...hourlyData.list.map((element) => getDataForHourly(getWeatherData(element))),
+            ...body[1].list.map((element) => getDataForHourly(getWeatherData(element))),
           ],
         });
       } catch (error) {
@@ -85,19 +83,22 @@ const WeatherForecast = () => {
       setIsLoading(false);
     };
 
-    fetchData();
+    if (!isEmpty(selectedFavCity)) {
+      fetchData();
+    }
   }, [selectedFavCity]);
 
   const selectDay = (name) => {
     dispatch({ type: 'SELECT_WEATHER_DAY', payload: name });
   };
 
+
   const getWeeklyForecast = (list) => {
     const days = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
     const weekForecast = [];
     let today = new Date().getDay();
 
-    for (let i = 0; i < list.length; i++) {
+    for (let i = 0; i < list.length; i += 1) {
       weekForecast.push({
         dayName: days[today],
         icon: list[i].svg,
@@ -107,98 +108,101 @@ const WeatherForecast = () => {
       if (today === 6) {
         today = 0;
       } else {
-        today++;
+        today += 1;
       }
     }
 
     return weekForecast;
   };
-
+  //console.log(selectedWeatherDay);
   return (
     <>
       {
-                !isLoading && !isError && favCities.length > 0 && current && (
-                <div className="weather-forecast">
-                  <div className="selected-city-current-data__container">
-                    <div className="selected-city-wrapper">
-                      <span className="city-name">{selectedFavCity.name}</span>
-                      <span className="city-time">{`${day.longName} ${timer}`}</span>
-                      <span className="weather-condition">{current.description}</span>
-                      <div className="city-weather-data">
-                        <div className="city-temp">
-                          {current.svg}
-                          <span className="temp-metric">{`${current.temp}°`}</span>
-                        </div>
-                        <div className="city-wind-hum-pres">
-                          <div>
-                            Pressure:
-                            <span>{current.pressure}</span>
-                          </div>
-                          <div>
-                            Humidity:
-                            <span>{`${current.humidity}%`}</span>
-                          </div>
-                          <div>
-                            Wind:
-                            <span>{`${current.wind} м/c`}</span>
-                          </div>
-                        </div>
-                      </div>
+        !isLoading && !isError && favCities.length > 0 && current && (
+          <div className="weather-forecast">
+            <div className="selected-city-current-data__container">
+              <div className="selected-city-wrapper">
+                <span className="city-name">{selectedFavCity.name}</span>
+                <span className="city-time">{`${day.longName} ${timer}`}</span>
+                <span className="weather-condition">{current.description}</span>
+                <div className="city-weather-data">
+                  <div className="city-temp">
+                    {current.svg}
+                    <span className="temp-metric">{`${current.temp}°`}</span>
+                  </div>
+                  <div className="city-wind-hum-pres">
+                    <div>
+                      Pressure:
+                      <span>{current.pressure}</span>
+                    </div>
+                    <div>
+                      Humidity:
+                      <span>{`${current.humidity}%`}</span>
+                    </div>
+                    <div>
+                      Wind:
+                      <span>{`${current.wind} м/c`}</span>
                     </div>
                   </div>
-                  <div className="week-forecast__container">
-                    {getWeeklyForecast(weeklyData).map(({
-                      dayName, icon, max, min,
-                    }) => (
-                      <div
-                        className={cn({
-                          'weather-forecast-day': true,
-                          'active-day': selectedWeatherDay === dayName,
-                        })}
-                        key={uniqueId()}
-                        onClick={() => selectDay(dayName)}
-                      >
-                        <span className="forecast-day">{dayName}</span>
-                        {icon}
-                        <div className="forecast-max-min">
-                          <span>{`${max}°`}</span>
-                          <span>{`${min}°`}</span>
-                        </div>
-                      </div>
-                    ))}
-
-
+                </div>
+              </div>
+            </div>
+            <div className="week-forecast__container">
+              {getWeeklyForecast(weeklyData).map(({
+                dayName, icon, max, min,
+              }) => (
+                <div
+                  className={cn({
+                    'weather-forecast-day': true,
+                    'active-day': selectedWeatherDay === dayName,
+                  })}
+                  key={uniqueId()}
+                  onClick={() => selectDay(dayName)}
+                >
+                  <span className="forecast-day">{dayName}</span>
+                  {icon}
+                  <div className="forecast-max-min">
+                    <span>{`${max}°`}</span>
+                    <span>{`${min}°`}</span>
                   </div>
                 </div>
+              ))}
 
-                )
-            }
+
+            </div>
+          </div>
+
+        )
+      }
       {
-                isLoading && (
-                <div className="preloader-wrapper daily-preloader">
-                  <div className="preloader">
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                  </div>
-                </div>
-                )
-            }
+        isLoading && (
+          <div className="preloader-wrapper daily-preloader">
+            <div className="preloader">
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+              <div />
+            </div>
+          </div>
+        )
+      }
       {
-                isError && (
-                <span className="forecast-error">Error, try reloading the page</span>
-                )
-            }
+        isError && (
+          <span className="forecast-error">Error, try reloading the page</span>
+        )
+      }
       {
-                selectedWeatherDay && favCities.length > 0 && !isLoading && !isError && <HourlyCard hourlyData={hourlyData} />
-            }
+        selectedWeatherDay
+        && favCities.length > 0
+        && !isLoading && !isError
+        && <HourlyCard hourlyData={hourlyData} />
+      }
     </>
   );
 };

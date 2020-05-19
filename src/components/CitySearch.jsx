@@ -164,7 +164,6 @@ const CitySearch = () => {
       <div className="city-search-body">
         <CityWeatherCard />
       </div>
-      
     </div>
   );
 };
