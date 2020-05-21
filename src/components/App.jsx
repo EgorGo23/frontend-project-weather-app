@@ -7,27 +7,27 @@ import { store } from '../store';
 
 const App = () => {
   const { globalState } = useContext(store);
-  const { darkMode, favCities, selectedWeatherDay } = globalState;
+  const {
+    darkMode, hourlyWeatherForSelectedDay, favCities,
+  } = globalState;
 
-  const [favCitiesLength, setFavCititesLength] = useState(favCities.length);
-  const [isSelectedWeatherDay, setSelectedWeatherDay] = useState(selectedWeatherDay);
+  const [
+    hourlyWeatherForSelectedDayLength,
+    setHourlyWeatherForSelectedDayLength,
+  ] = useState(hourlyWeatherForSelectedDay.length);
 
   useEffect(() => {
     localStorage.setItem('favCities', JSON.stringify([...favCities]));
-    setFavCititesLength(favCities.length);
   }, [favCities]);
 
   useEffect(() => {
-    setSelectedWeatherDay(setSelectedWeatherDay);
-  }, [selectedWeatherDay]);
+    setHourlyWeatherForSelectedDayLength(hourlyWeatherForSelectedDay.length);
+  }, [hourlyWeatherForSelectedDay]);
 
   return (
     <div
       className={cn({
         app: true,
-        'medium-app': favCitiesLength,
-        'large-app': favCitiesLength && isSelectedWeatherDay,
-        'large_plus-app': '',
         'app-dark': darkMode,
       })}
     >
@@ -35,14 +35,12 @@ const App = () => {
       <main
         className={cn({
           main__card: true,
-          'medium-main_card': favCitiesLength,
-          // 'large-main_card': '',
+          'large-main_card': hourlyWeatherForSelectedDayLength > 0 && hourlyWeatherForSelectedDayLength < 6,
+          'largePlus-main_card': hourlyWeatherForSelectedDayLength > 5,
         })}
       >
         <CitySearch />
-        {
-          favCitiesLength !== 0 ? <CitiesInfo /> : null
-        }
+        <CitiesInfo />
       </main>
     </div>
   );

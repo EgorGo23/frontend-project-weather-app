@@ -1,11 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-case-declarations */
 import React, { createContext, useReducer } from 'react';
-import { isEmpty } from 'lodash';
-import getWeekDay from './getWeekDay';
 
 const dataFromLocalStorage = JSON.parse(localStorage.getItem('favCities'));
-// console.log(isEmpty(dataFromLocalStorage) ? '' : getWeekDay(new Date(), 'short'))
+
 const initialState = {
   darkMode: false,
   idSearchedCity: null,
@@ -15,22 +13,8 @@ const initialState = {
   favCities: dataFromLocalStorage || [],
   selectedFavCity: dataFromLocalStorage[0] || {},
   selectedWeatherDay: '',
+  hourlyWeatherForSelectedDay: [],
 };
-// favCities: [
-//   { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
-//   { name: 'Berlin', id: 2950158, coord: { lon: 10.45, lat: 54.03 } },
-//   { name: 'New York', id: 5128638, coord: { lon: -75.5, lat: 43 } },
-//   { name: 'London', id: 2643743, coord: { lon: -0.13, lat: 51.51 } },
-//   { name: 'Hong Kong', id: 1819729, coord: { lon: 114.16, lat: 22.29 } },
-//   { name: 'Tokyo', id: 1850147, coord: { lon: 139.69, lat: 35.69 } },
-//   { name: 'Beijing', id: 1816670, coord: { lon: 116.4, lat: 39.91 } },
-// ],
-
-// selectedFavCity: { name: 'Moscow', id: 524894, coord: { lon: 37.61, lat: 55.76 } },
-//   selectedWeatherDay: getWeekDay(new Date(), 'short'),
-
-// favCities: JSON.parse(localStorage.getItem('favCities')) || [],
-
 
 const store = createContext(initialState);
 const { Provider } = store;
@@ -103,7 +87,7 @@ const StateProvider = ({ children }) => {
       case 'ADD_HOURLY_WEATHER':
         return {
           ...state,
-          hourlyPointForSelectedDay: payload,
+          hourlyWeatherForSelectedDay: payload,
         };
       default:
         throw new Error();

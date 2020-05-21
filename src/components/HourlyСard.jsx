@@ -36,7 +36,7 @@ const HourlyСard = ({ hourlyData }) => {
   useEffect(() => {
     const hourlyWeather = getData(hourlyData);
 
-    dispatch({ type: 'ADD_HOURLY_WEATHER', payload: hourlyWeather[selectedWeatherDay] });
+    dispatch({ type: 'ADD_HOURLY_WEATHER', payload: hourlyWeather[selectedWeatherDay] || [] });
     setFiveDayData(hourlyWeather[selectedWeatherDay]);
   }, [hourlyData, selectedWeatherDay]);
 

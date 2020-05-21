@@ -114,7 +114,6 @@ const WeatherForecast = () => {
 
     return weekForecast;
   };
-  //console.log(selectedWeatherDay);
   return (
     <>
       {
