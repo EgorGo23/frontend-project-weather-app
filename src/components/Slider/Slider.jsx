@@ -39,18 +39,35 @@ const Slider = () => {
 
     favCities.map((element) => cLL.append(element));
 
-    const { first, second, third } = activeSlides;
-
-    setState({
-      ...state,
-      slides: cLL.size() > 3 ? [
-        cLL.getElementAt(first).element,
-        cLL.getElementAt(second).element,
-        cLL.getElementAt(third).element,
-      ]
-        : [...cLL.toArray()],
-      cities: cLL,
-    });
+    /* Если добавляется новый элемент в слайдер, то slides активными слайдами
+      должны стать первые три элемента списка */
+    if (favCities.length > cities.size()) {
+      setState({
+        ...state,
+        activeSlides: {
+          first: 0,
+          second: 1,
+          third: 2,
+        },
+        slides: cLL.size() > 3 ? [
+          ...cLL.toArray().slice(0, 3),
+        ]
+          : [...cLL.toArray()],
+        cities: cLL,
+      });
+    } else {
+      const { first, second, third } = activeSlides;
+      setState({
+        ...state,
+        slides: cLL.size() > 3 ? [
+          cLL.getElementAt(first).element,
+          cLL.getElementAt(second).element,
+          cLL.getElementAt(third).element,
+        ]
+          : [...cLL.toArray()],
+        cities: cLL,
+      });
+    }
   }, [favCities]);
 
   const goPrevSlide = () => {
