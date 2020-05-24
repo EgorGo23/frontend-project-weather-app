@@ -2,7 +2,7 @@
 /* eslint-disable no-case-declarations */
 import React, { createContext, useReducer } from 'react';
 
-const dataFromLocalStorage = JSON.parse(localStorage.getItem('favCities'));
+const dataFromLocalStorage = JSON.parse(localStorage.getItem('favCities')) || [];
 
 const initialState = {
   darkMode: false,
@@ -10,7 +10,7 @@ const initialState = {
   searchText: '',
   searchErrorFetch: false,
   citiesSearch: [],
-  favCities: dataFromLocalStorage || [],
+  favCities: dataFromLocalStorage,
   selectedFavCity: dataFromLocalStorage[0] || {},
   selectedWeatherDay: '',
   hourlyWeatherForSelectedDay: [],

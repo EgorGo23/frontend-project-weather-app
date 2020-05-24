@@ -1,4 +1,5 @@
 # Browser-Weather-App
+
 Weather application by city. In it you can find out the weather in your favorite city for the next seven days every three hours.
 
 ## Getting Started
