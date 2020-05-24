@@ -1,5 +1,7 @@
 # Browser-Weather-App
 
+Website - [Weather App](https://weatherapp2303.herokuapp.com/)
+
 Weather application by city. In it you can find out the weather in your favorite city for the next seven days every three hours.
 
 ## Getting Started
@@ -10,7 +12,7 @@ The server will start automatically and the application will open at `http://loc
 ### Highlights
 * Use [OpenWeatherMap](https://openweathermap.org/) API
 * Dark mode
-* Favorite cities
+* Favorite cities (stored after page reload)
 
 ### Examples
 
